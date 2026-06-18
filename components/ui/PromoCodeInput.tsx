@@ -43,7 +43,7 @@ export default function PromoCodeInput() {
           onChange={(e) => !promoCode && setCode(e.target.value.toUpperCase())}
           placeholder="Enter code (try D2PFIRST)"
           disabled={!!promoCode}
-          className="flex-1 h-11 px-4 text-sm border-2 focus:outline-none focus:border-ember transition-colors"
+          className="flex-1 min-w-0 h-11 px-4 text-sm border-2 focus:outline-none focus:border-ember transition-colors"
           style={{
             fontFamily: "'IBM Plex Mono', monospace",
             borderColor: status === 'error' ? '#D62828' : status === 'success' ? '#22c55e' : '#E7E1D3',

@@ -4,9 +4,18 @@ import { useEffect, useState } from 'react';
 import { X, Smartphone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: Array<string>;
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed',
+    platform: string
+  }>;
+  prompt(): Promise<void>;
+}
+
 export default function InstallBanner() {
   const [show, setShow] = useState(false);
-  const [deferredPrompt, setDeferredPrompt] = useState<Event & { prompt: () => void; userChoice: Promise<{ outcome: string }> } | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
     // Track visits
@@ -28,7 +37,7 @@ export default function InstallBanner() {
     // Listen for browser install prompt
     const handler = (e: Event) => {
       e.preventDefault();
-      setDeferredPrompt(e);
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
       if (visits >= 1 && checkShouldShow()) {
         setShow(true);
       }
