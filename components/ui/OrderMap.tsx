@@ -24,8 +24,8 @@ function getRiderPosition(statusIndex: number) {
 
 export default function OrderMap({ statusIndex }: OrderMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
-  const riderMarkerRef = useRef<any>(null);
+  const mapInstanceRef = useRef<import('leaflet').Map | null>(null);
+  const riderMarkerRef = useRef<import('leaflet').Marker | null>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined' || !mapRef.current) return;
@@ -35,7 +35,8 @@ export default function OrderMap({ statusIndex }: OrderMapProps) {
       if (mapInstanceRef.current) return;
 
       // Fix default icon paths
-      delete (L.Icon.Default.prototype as any)._getIconUrl;
+      // @ts-expect-error - Leaflet internal property access
+      delete (L.Icon.Default.prototype as Record<string, unknown>)._getIconUrl;
       L.Icon.Default.mergeOptions({
         iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
         iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -91,6 +92,7 @@ export default function OrderMap({ statusIndex }: OrderMapProps) {
 
       mapInstanceRef.current = map;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Update rider position on status change
