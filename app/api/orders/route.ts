@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // In-memory order store (demo only)
-const orders: Record<string, any> = {};
+const orders: Record<string, unknown> = {};
 
 export async function POST(request: Request) {
   const body = await request.json();

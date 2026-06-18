@@ -6,11 +6,11 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import MenuCard from '@/components/ui/MenuCard';
 import CategoryChipRow from '@/components/ui/CategoryChipRow';
-import { featuredItems, categories } from '@/lib/data/menu';
+import { featuredItems, Category } from '@/lib/data/menu';
 import { useState } from 'react';
 
 export default function HomePage() {
-  const [activeChip, setActiveChip] = useState<'all' | any>('all');
+  const [activeChip, setActiveChip] = useState<Category | 'all'>('all');
 
   return (
     <main style={{ background: '#F7F3EA' }}>

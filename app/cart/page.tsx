@@ -51,7 +51,7 @@ export default function CartPage() {
               className="text-sm mb-6"
               style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}
             >
-              Looks like you haven't added anything yet.
+              Looks like you haven&apos;t added anything yet.
             </p>
             <Link
               href="/menu"

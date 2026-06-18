@@ -8,7 +8,6 @@ import { motion } from 'framer-motion';
 import { getItemById } from '@/lib/data/menu';
 import { useCartStore } from '@/lib/store/cart';
 import { useEmberTrail, EmberTrailCanvas } from '@/components/animations/EmberTrail';
-import { useState } from 'react';
 
 export default function ItemPage({ params }: { params: { item: string } }) {
   const item = getItemById(params.item);

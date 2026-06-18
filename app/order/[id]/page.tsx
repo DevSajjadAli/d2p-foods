@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, Clock, ChefHat, Bike, PartyPopper } from 'lucide-react';
+import { CheckCircle, ChefHat, Bike, PartyPopper } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
@@ -25,7 +25,6 @@ const statusSteps: {
 
 export default function OrderTrackingPage({ params }: { params: { id: string } }) {
   const [currentStatusIndex, setCurrentStatusIndex] = useState(0);
-  const currentStatus = statusSteps[currentStatusIndex];
 
   // Auto-advance status (mock)
   useEffect(() => {

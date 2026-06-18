@@ -21,7 +21,7 @@ export default function ContactPage() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async () => {
     await new Promise((r) => setTimeout(r, 1000));
     setSent(true);
   };
@@ -113,7 +113,7 @@ export default function ContactPage() {
                 MESSAGE SENT!
               </h2>
               <p className="text-sm" style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}>
-                We'll get back to you within 24 hours.
+                We&apos;ll get back to you within 24 hours.
               </p>
             </div>
           ) : (
@@ -130,7 +130,7 @@ export default function ContactPage() {
                   <input
                     id={id}
                     type={type}
-                    {...register(id as any)}
+                    {...register(id as keyof FormData)}
                     placeholder={placeholder}
                     className="w-full h-11 px-4 text-sm border-2 focus:outline-none focus:border-ember transition-colors"
                     style={{ ...inputBase, clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)' }}

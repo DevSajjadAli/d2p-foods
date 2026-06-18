@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Package, Clock, MapPin, User, ChevronRight } from 'lucide-react';
+import { Package, Clock, User, ChevronRight } from 'lucide-react';
 
 const mockOrders = [
   { id: 'D2P-ABC123', date: '2026-06-17', items: ['D2P Flame Burger', 'Crispy Fries (Large)', 'Soft Drink (Regular)'], total: 1349, status: 'Delivered' },

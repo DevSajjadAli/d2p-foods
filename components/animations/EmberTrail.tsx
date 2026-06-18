@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type Ember = {
@@ -37,7 +37,7 @@ export function useEmberTrail() {
     const endY = cartRect.top + cartRect.height / 2;
 
     const count = 4;
-    const newEmbers: Ember[] = Array.from({ length: count }, (_, i) => ({
+    const newEmbers: Ember[] = Array.from({ length: count }, () => ({
       id: ++idRef.current,
       startX: startX + (Math.random() - 0.5) * 20,
       startY: startY + (Math.random() - 0.5) * 20,

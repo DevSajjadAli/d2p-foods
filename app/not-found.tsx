@@ -32,7 +32,7 @@ export default function NotFound() {
         className="text-base mb-8 max-w-md"
         style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}
       >
-        The page you're looking for doesn't exist. Maybe it got flame-grilled.
+        The page you&apos;re looking for doesn&apos;t exist. Maybe it got flame-grilled.
       </p>
       <Link
         href="/"

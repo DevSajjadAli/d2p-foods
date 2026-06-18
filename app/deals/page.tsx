@@ -2,9 +2,7 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { useCartStore } from '@/lib/store/cart';
 import { useEmberTrail, EmberTrailCanvas } from '@/components/animations/EmberTrail';
-import { menuItems } from '@/lib/data/menu';
 
 const deals = [
   {
@@ -50,8 +48,7 @@ const deals = [
 ];
 
 export default function DealsPage() {
-  const addItem = useCartStore((s) => s.addItem);
-  const { buttonRef, embers, triggerEmber } = useEmberTrail();
+  const { embers } = useEmberTrail();
 
   return (
     <main className="min-h-screen pb-32" style={{ background: '#F7F3EA' }}>
@@ -68,7 +65,7 @@ export default function DealsPage() {
             className="text-4xl sm:text-5xl"
             style={{ fontFamily: "'Anton', sans-serif", color: '#1B1714', letterSpacing: '-0.02em' }}
           >
-            TODAY'S DEALS
+            TODAY&apos;S DEALS
           </h1>
         </div>
 
