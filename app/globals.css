@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────
+   D2P Foods — Global CSS
+   Design Token System
+───────────────────────────────────── */
+
+:root {
+  /* Color tokens */
+  --color-bone: #F7F3EA;
+  --color-char: #1B1714;
+  --color-ember: #D62828;
+  --color-ash: #E7E1D3;
+  --color-smoke: #6E6557;
+  --color-charcoal: #2A2521;
+
+  /* Font tokens */
+  --font-display: 'Anton', sans-serif;
+  --font-body: 'Work Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+/* ─────────────────────────────────────
+   Base Reset
+───────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--color-bone);
+  color: var(--color-char);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─────────────────────────────────────
+   Fluid Typography via clamp()
+───────────────────────────────────── */
+h1 { font-size: clamp(2rem, 6vw, 4.5rem); }
+h2 { font-size: clamp(1.5rem, 4vw, 3rem); }
+h3 { font-size: clamp(1.125rem, 2.5vw, 1.75rem); }
+h4 { font-size: clamp(1rem, 2vw, 1.25rem); }
+
+/* ─────────────────────────────────────
+   Signature Element — Clipped Card
+   8px diagonal cut on top-right corner
+───────────────────────────────────── */
+.clipped-card {
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+}
+
+.clipped-card-lg {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}
+
+.clipped-card-xl {
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+}
+
+/* ─────────────────────────────────────
+   Focus Rings — Keyboard Nav
+───────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-ember);
+  outline-offset: 2px;
+}
+
+/* Remove focus for mouse users, keep for keyboard */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ─────────────────────────────────────
+   Scrollbar — Hide for chip rows
+───────────────────────────────────── */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─────────────────────────────────────
+   Ember Trail — Reduced Motion
+───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .ember-particle {
+    display: none !important;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─────────────────────────────────────
+   Utility: Ember Red Accent Text
+   ONLY for large text, buttons, icons
+   Never for body copy
+───────────────────────────────────── */
+.text-ember {
+  color: var(--color-ember);
+}
+
+.bg-ember {
+  background-color: var(--color-ember);
+}
+
+.border-ember {
+  border-color: var(--color-ember);
+}
+
+/* ─────────────────────────────────────
+   Leaflet Map Overrides
+───────────────────────────────────── */
+.leaflet-container {
+  background: #1B1714 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #2A2521 !important;
+  color: #F7F3EA !important;
+  border-radius: 0 !important;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
+  font-family: 'Work Sans', sans-serif !important;
+  font-size: 13px !important;
+}
+
+.leaflet-popup-tip {
+  background: #2A2521 !important;
+}
+
+/* ─────────────────────────────────────
+   Safe area insets (iPhone notch/bar)
+───────────────────────────────────── */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}

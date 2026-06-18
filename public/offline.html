@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1B1714" />
+  <title>You're Offline | D2P Foods</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #F7F3EA;
+      color: #1B1714;
+      font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+      line-height: 1;
+    }
+
+    .logo {
+      font-family: 'Anton', 'Arial Black', sans-serif;
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+      color: #1B1714;
+      margin-bottom: 0.5rem;
+    }
+
+    .logo span {
+      color: #D62828;
+    }
+
+    h1 {
+      font-family: 'Anton', 'Arial Black', sans-serif;
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      letter-spacing: -0.02em;
+      color: #1B1714;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: #6E6557;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      max-width: 400px;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: #E7E1D3;
+      padding: 1.5rem;
+      max-width: 400px;
+      width: 100%;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+      margin-bottom: 1.5rem;
+    }
+
+    .card h2 {
+      font-size: 0.875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #D62828;
+      margin-bottom: 0.75rem;
+    }
+
+    .card ul {
+      list-style: none;
+      text-align: left;
+    }
+
+    .card ul li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #D5CEBC;
+      font-size: 0.875rem;
+      color: #6E6557;
+    }
+
+    .card ul li:last-child {
+      border-bottom: none;
+    }
+
+    .card ul li::before {
+      content: '🔥';
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #D62828;
+      color: #fff;
+      font-family: 'Work Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.9rem 2.5rem;
+      text-decoration: none;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+      transition: opacity 0.2s;
+    }
+
+    .btn:hover {
+      opacity: 0.85;
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: #6E6557;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="icon">🔥</div>
+  <div class="logo">D2P <span>FOODS</span></div>
+  <h1>NO SIGNAL,<br/>NO PROBLEM</h1>
+  <p>
+    You're offline right now, but here's what you can still do.
+    Connect to the internet to place your order.
+  </p>
+
+  <div class="card">
+    <h2>While you wait</h2>
+    <ul>
+      <li>Check your cached menu items</li>
+      <li>Review your cart</li>
+      <li>Call us: <strong>+92 21 3357 1000</strong></li>
+      <li>Find a branch near you</li>
+    </ul>
+  </div>
+
+  <a href="/" class="btn" onclick="window.location.reload(); return false;">
+    TRY AGAIN →
+  </a>
+
+  <p class="hint">
+    Your cart is saved and will be ready when you reconnect.
+  </p>
+</body>
+</html>
