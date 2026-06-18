@@ -6,11 +6,15 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import MenuCard from '@/components/ui/MenuCard';
 import CategoryChipRow from '@/components/ui/CategoryChipRow';
-import { featuredItems, Category } from '@/lib/data/menu';
+import { featuredItems, Category, menuItems } from '@/lib/data/menu';
 import { useState } from 'react';
 
 export default function HomePage() {
   const [activeChip, setActiveChip] = useState<Category | 'all'>('all');
+
+  const displayItems = activeChip === 'all'
+    ? featuredItems
+    : menuItems.filter((item) => item.category === activeChip);
 
   return (
     <main style={{ background: '#F7F3EA' }}>
@@ -130,7 +134,7 @@ export default function HomePage() {
                 className="text-xs font-bold uppercase tracking-widest mb-1"
                 style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}
               >
-                Most Ordered
+                {activeChip === 'all' ? 'Most Ordered' : 'Category'}
               </p>
               <h2
                 className="text-3xl sm:text-4xl leading-none"
@@ -140,7 +144,7 @@ export default function HomePage() {
                   letterSpacing: '-0.02em',
                 }}
               >
-                CROWD FAVOURITES
+                {activeChip === 'all' ? 'CROWD FAVOURITES' : activeChip.toUpperCase()}
               </h2>
             </div>
             <Link
@@ -153,7 +157,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {featuredItems.map((item, i) => (
+            {displayItems.map((item, i) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, y: 20 }}
