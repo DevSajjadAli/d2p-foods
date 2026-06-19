@@ -9,7 +9,7 @@ export default function AboutPage() {
         style={{ minHeight: 320 }}
       >
         <Image
-          src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1200&auto=format&fit=crop"
+          src="/images/about_kitchen.jpg"
           alt="D2P Foods - our story"
           fill
           sizes="100vw"
