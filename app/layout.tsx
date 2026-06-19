@@ -3,7 +3,7 @@ import { Anton, Work_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import CartBar from "@/components/layout/CartBar";
+import CartDrawer from "@/components/ui/CartDrawer";
 import InstallBanner from "@/components/pwa/InstallBanner";
 import UpdateToast from "@/components/pwa/UpdateToast";
 
@@ -123,7 +123,7 @@ export default function RootLayout({
         <Header />
         <InstallBanner />
         {children}
-        <CartBar />
+        <CartDrawer />
         <UpdateToast />
         <Footer />
       </body>

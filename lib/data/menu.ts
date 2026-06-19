@@ -8,6 +8,11 @@ export type MenuItem = {
   tags?: string[];
   popular?: boolean;
   spicy?: boolean;
+  // Zomato-style metadata
+  veg: boolean;
+  rating: number; // 0..5
+  ratingCount: number;
+  prepTime: number; // minutes
 };
 
 export type Category = 'grilled' | 'wings' | 'combos' | 'sides' | 'drinks';
@@ -18,6 +23,19 @@ export const categories: { id: Category; label: string; emoji: string }[] = [
   { id: 'combos', label: 'Combos', emoji: '🥤' },
   { id: 'sides', label: 'Sides', emoji: '🥗' },
   { id: 'drinks', label: 'Drinks', emoji: '🧃' },
+];
+
+// "What's on Your Mind" — intent-based cuisine tiles for the homepage carousel.
+// Each cuisine is a photo + label, exactly the Zomato pattern.
+export const cuisineTiles: { id: string; label: string; image: string }[] = [
+  { id: 'burgers', label: 'Burgers', image: '/images/hero_burger.png' },
+  { id: 'wings', label: 'Wings', image: '/images/spicy_wings_platter.png' },
+  { id: 'combos', label: 'Combos', image: '/images/combo_meal.png' },
+  { id: 'wraps', label: 'Wraps', image: '/images/grilled_wrap.png' },
+  { id: 'chicken', label: 'Chicken', image: '/images/grilled_chicken.png' },
+  { id: 'sides', label: 'Sides', image: '/images/crispy_fries.png' },
+  { id: 'drinks', label: 'Drinks', image: '/images/soft_drinks.png' },
+  { id: 'family', label: 'Family Meals', image: '/images/family_combo.png' },
 ];
 
 export const menuItems: MenuItem[] = [
@@ -31,6 +49,10 @@ export const menuItems: MenuItem[] = [
     category: 'grilled',
     popular: true,
     tags: ['bestseller'],
+    veg: false,
+    rating: 4.6,
+    ratingCount: 1284,
+    prepTime: 9,
   },
   {
     id: 'double-smash',
@@ -40,6 +62,10 @@ export const menuItems: MenuItem[] = [
     image: '/images/double_smash.png',
     category: 'grilled',
     popular: true,
+    veg: false,
+    rating: 4.7,
+    ratingCount: 942,
+    prepTime: 11,
   },
   {
     id: 'zinger-burger',
@@ -49,6 +75,10 @@ export const menuItems: MenuItem[] = [
     image: '/images/zinger_burger.png',
     category: 'grilled',
     spicy: true,
+    veg: false,
+    rating: 4.4,
+    ratingCount: 612,
+    prepTime: 9,
   },
   {
     id: 'grilled-chicken',
@@ -58,6 +88,10 @@ export const menuItems: MenuItem[] = [
     image: '/images/grilled_chicken.png',
     category: 'grilled',
     popular: true,
+    veg: false,
+    rating: 4.5,
+    ratingCount: 421,
+    prepTime: 14,
   },
   {
     id: 'grilled-wrap',
@@ -66,6 +100,10 @@ export const menuItems: MenuItem[] = [
     price: 650,
     image: '/images/grilled_wrap.png',
     category: 'grilled',
+    veg: false,
+    rating: 4.3,
+    ratingCount: 318,
+    prepTime: 8,
   },
 
   // WINGS
@@ -77,6 +115,10 @@ export const menuItems: MenuItem[] = [
     image: '/images/wings_bbq.png',
     category: 'wings',
     popular: true,
+    veg: false,
+    rating: 4.5,
+    ratingCount: 871,
+    prepTime: 12,
   },
   {
     id: 'bbq-wings-12',
@@ -85,6 +127,10 @@ export const menuItems: MenuItem[] = [
     price: 1350,
     image: '/images/wings_bbq.png',
     category: 'wings',
+    veg: false,
+    rating: 4.5,
+    ratingCount: 290,
+    prepTime: 14,
   },
   {
     id: 'spicy-wings-6',
@@ -94,6 +140,10 @@ export const menuItems: MenuItem[] = [
     image: '/images/spicy_wings_platter.png',
     category: 'wings',
     spicy: true,
+    veg: false,
+    rating: 4.4,
+    ratingCount: 552,
+    prepTime: 13,
   },
   {
     id: 'spicy-wings-12',
@@ -103,6 +153,10 @@ export const menuItems: MenuItem[] = [
     image: '/images/spicy_wings_platter.png',
     category: 'wings',
     spicy: true,
+    veg: false,
+    rating: 4.4,
+    ratingCount: 188,
+    prepTime: 15,
   },
 
   // COMBOS
@@ -115,6 +169,10 @@ export const menuItems: MenuItem[] = [
     category: 'combos',
     popular: true,
     tags: ['value'],
+    veg: false,
+    rating: 4.6,
+    ratingCount: 1063,
+    prepTime: 16,
   },
   {
     id: 'double-combo',
@@ -123,6 +181,10 @@ export const menuItems: MenuItem[] = [
     price: 1650,
     image: '/images/combo_meal.png',
     category: 'combos',
+    veg: false,
+    rating: 4.5,
+    ratingCount: 487,
+    prepTime: 18,
   },
   {
     id: 'family-feast',
@@ -133,6 +195,10 @@ export const menuItems: MenuItem[] = [
     category: 'combos',
     popular: true,
     tags: ['value', 'family'],
+    veg: false,
+    rating: 4.7,
+    ratingCount: 238,
+    prepTime: 22,
   },
   {
     id: 'wings-combo',
@@ -141,6 +207,10 @@ export const menuItems: MenuItem[] = [
     price: 2400,
     image: '/images/family_combo.png',
     category: 'combos',
+    veg: false,
+    rating: 4.6,
+    ratingCount: 174,
+    prepTime: 20,
   },
 
   // SIDES
@@ -151,6 +221,10 @@ export const menuItems: MenuItem[] = [
     price: 299,
     image: '/images/crispy_fries.png',
     category: 'sides',
+    veg: true,
+    rating: 4.4,
+    ratingCount: 1421,
+    prepTime: 5,
   },
   {
     id: 'large-fries',
@@ -159,6 +233,10 @@ export const menuItems: MenuItem[] = [
     price: 399,
     image: '/images/crispy_fries.png',
     category: 'sides',
+    veg: true,
+    rating: 4.5,
+    ratingCount: 612,
+    prepTime: 6,
   },
   {
     id: 'garlic-bread',
@@ -167,6 +245,10 @@ export const menuItems: MenuItem[] = [
     price: 350,
     image: '/images/garlic_bread.png',
     category: 'sides',
+    veg: true,
+    rating: 4.3,
+    ratingCount: 287,
+    prepTime: 5,
   },
   {
     id: 'coleslaw',
@@ -175,6 +257,10 @@ export const menuItems: MenuItem[] = [
     price: 250,
     image: '/images/coleslaw_salad.png',
     category: 'sides',
+    veg: true,
+    rating: 4.2,
+    ratingCount: 154,
+    prepTime: 3,
   },
   {
     id: 'onion-rings',
@@ -183,6 +269,10 @@ export const menuItems: MenuItem[] = [
     price: 350,
     image: '/images/crispy_fries.png',
     category: 'sides',
+    veg: true,
+    rating: 4.4,
+    ratingCount: 198,
+    prepTime: 6,
   },
 
   // DRINKS
@@ -193,6 +283,10 @@ export const menuItems: MenuItem[] = [
     price: 199,
     image: '/images/soft_drinks.png',
     category: 'drinks',
+    veg: true,
+    rating: 4.3,
+    ratingCount: 624,
+    prepTime: 1,
   },
   {
     id: 'large-drink',
@@ -201,6 +295,10 @@ export const menuItems: MenuItem[] = [
     price: 249,
     image: '/images/soft_drinks.png',
     category: 'drinks',
+    veg: true,
+    rating: 4.3,
+    ratingCount: 188,
+    prepTime: 1,
   },
   {
     id: 'mineral-water',
@@ -209,6 +307,10 @@ export const menuItems: MenuItem[] = [
     price: 150,
     image: '/images/soft_drinks.png',
     category: 'drinks',
+    veg: true,
+    rating: 4.0,
+    ratingCount: 412,
+    prepTime: 1,
   },
   {
     id: 'fresh-lemonade',
@@ -218,6 +320,10 @@ export const menuItems: MenuItem[] = [
     image: '/images/soft_drinks.png',
     category: 'drinks',
     popular: true,
+    veg: true,
+    rating: 4.6,
+    ratingCount: 538,
+    prepTime: 3,
   },
 ];
 
@@ -228,3 +334,16 @@ export const getItemsByCategory = (category: Category) =>
 
 export const getItemById = (id: string) =>
   menuItems.find((item) => item.id === id);
+
+// Average aggregate for restaurant-page header band
+export const restaurantStats = () => {
+  const total = menuItems.length;
+  const avgRating =
+    menuItems.reduce((sum, i) => sum + i.rating, 0) / total;
+  const totalRatings = menuItems.reduce((sum, i) => sum + i.ratingCount, 0);
+  return {
+    avgRating: Math.round(avgRating * 10) / 10,
+    totalRatings,
+    itemCount: total,
+  };
+};

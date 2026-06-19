@@ -3,11 +3,13 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Flame } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { getItemById } from '@/lib/data/menu';
+import { getItemById, menuItems } from '@/lib/data/menu';
 import { useCartStore } from '@/lib/store/cart';
 import { useEmberTrail, EmberTrailCanvas } from '@/components/animations/EmberTrail';
+import RatingBadge from '@/components/ui/RatingBadge';
+import VegMarker from '@/components/ui/VegMarker';
 
 export default function ItemPage({ params }: { params: { item: string } }) {
   const item = getItemById(params.item);
@@ -15,41 +17,39 @@ export default function ItemPage({ params }: { params: { item: string } }) {
 
   const addItem = useCartStore((s) => s.addItem);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
-  const cartItems = useCartStore((s) => s.items);
   const { buttonRef, embers, triggerEmber } = useEmberTrail();
-
-  const cartItem = cartItems.find((i) => i.id === item.id);
-  const quantity = cartItem?.quantity ?? 0;
+  const quantity = 0;
 
   const handleAdd = () => {
+    if (buttonRef.current) {
+      triggerEmber();
+    }
     addItem({ id: item.id, name: item.name, price: item.price, image: item.image });
-    triggerEmber();
   };
+
+  const related = menuItems
+    .filter((i) => i.category === item.category && i.id !== item.id)
+    .slice(0, 4);
 
   return (
     <main className="min-h-screen" style={{ background: '#F7F3EA' }}>
       <EmberTrailCanvas embers={embers} />
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-32">
-        {/* Back */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-10">
         <Link
           href="/menu"
-          className="inline-flex items-center gap-2 text-sm mb-6 hover:text-ember transition-colors focus:outline-none focus-visible:underline"
+          className="inline-flex items-center gap-2 text-sm mb-6 transition-colors hover:underline focus:outline-none focus-visible:underline"
           style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}
         >
-          <ArrowLeft size={14} aria-hidden="true" />
-          Back to Menu
+          <ArrowLeft size={14} aria-hidden="true" /> Back to Menu
         </Link>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Image */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4 }}
             className="relative w-full aspect-square overflow-hidden"
             style={{
-              clipPath:
-                'polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)',
+              clipPath: 'polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)',
             }}
           >
             <Image
@@ -60,48 +60,25 @@ export default function ItemPage({ params }: { params: { item: string } }) {
               className="object-cover"
               priority
             />
-            {/* Badges */}
-            <div className="absolute top-3 left-3 flex flex-col gap-1.5">
-              {item.popular && (
-                <span
-                  className="text-white text-xs font-bold px-3 py-1 uppercase tracking-wide"
-                  style={{
-                    background: '#D62828',
-                    fontFamily: "'Work Sans', sans-serif",
-                    clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 0 100%)',
-                  }}
-                >
-                  Popular
-                </span>
-              )}
-              {item.spicy && (
-                <span
-                  className="text-white text-xs font-bold px-3 py-1 uppercase tracking-wide flex items-center gap-1"
-                  style={{
-                    background: '#1B1714',
-                    fontFamily: "'Work Sans', sans-serif",
-                    clipPath: 'polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 0 100%)',
-                  }}
-                >
-                  <Flame size={10} aria-hidden="true" /> Spicy
-                </span>
-              )}
+            <div className="absolute top-3 left-3">
+              <RatingBadge rating={item.rating} ratingCount={item.ratingCount} />
             </div>
           </motion.div>
-
-          {/* Details */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
             className="flex flex-col"
           >
-            <p
-              className="text-xs font-bold uppercase tracking-widest mb-2"
-              style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}
-            >
-              {item.category}
-            </p>
+            <div className="flex items-center gap-2 mb-2">
+              <VegMarker veg={item.veg} size={16} />
+              <span
+                className="text-xs font-bold uppercase tracking-widest"
+                style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}
+              >
+                {item.category}
+              </span>
+            </div>
             <h1
               className="text-3xl sm:text-4xl leading-tight mb-3"
               style={{
@@ -113,22 +90,23 @@ export default function ItemPage({ params }: { params: { item: string } }) {
               {item.name.toUpperCase()}
             </h1>
             <p
-              className="text-base leading-relaxed flex-1 mb-6"
+              className="text-base leading-relaxed flex-1 mb-4"
               style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}
             >
               {item.description}
             </p>
-
-            {/* Price */}
+            <div className="flex flex-wrap gap-3 mb-4">
+              <MetaTag label={`⏱ ${item.prepTime + 15} min`} />
+              <MetaTag label="🍽 1 serving" />
+              {item.spicy && <MetaTag label="🔥 Spicy" accent />}
+            </div>
             <div
-              className="text-4xl font-bold mb-8"
+              className="text-4xl font-bold mb-6"
               style={{ color: '#D62828', fontFamily: "'IBM Plex Mono', monospace" }}
               aria-label={`Price: Rs. ${item.price}`}
             >
               Rs. {item.price.toLocaleString()}
             </div>
-
-            {/* Quantity + Add */}
             <div className="flex items-center gap-4">
               {quantity > 0 && (
                 <div
@@ -139,8 +117,8 @@ export default function ItemPage({ params }: { params: { item: string } }) {
                 >
                   <button
                     onClick={() => updateQuantity(item.id, quantity - 1)}
-                    className="w-11 h-11 flex items-center justify-center text-xl font-bold transition-colors hover:bg-ash focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-                    style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}
+                    className="w-11 h-11 flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
+                    style={{ color: '#D62828' }}
                     aria-label="Decrease quantity"
                   >
                     −
@@ -154,15 +132,14 @@ export default function ItemPage({ params }: { params: { item: string } }) {
                   </span>
                   <button
                     onClick={handleAdd}
-                    className="w-11 h-11 flex items-center justify-center text-xl font-bold transition-colors hover:bg-ash focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-                    style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}
+                    className="w-11 h-11 flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
+                    style={{ color: '#D62828' }}
                     aria-label="Increase quantity"
                   >
                     +
                   </button>
                 </div>
               )}
-
               <button
                 ref={buttonRef}
                 onClick={handleAdd}
@@ -170,16 +147,13 @@ export default function ItemPage({ params }: { params: { item: string } }) {
                 style={{
                   background: '#D62828',
                   fontFamily: "'Work Sans', sans-serif",
-                  clipPath:
-                    'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
+                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
                 }}
-                aria-label={quantity > 0 ? `Add another ${item.name}` : `Add ${item.name} to cart`}
+                aria-label="Add to cart"
               >
-                {quantity > 0 ? 'ADD MORE' : 'ADD TO CART'} →
+                ADD TO CART →
               </button>
             </div>
-
-            {/* Nutrition notice */}
             <p
               className="text-xs mt-6"
               style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}
@@ -188,7 +162,87 @@ export default function ItemPage({ params }: { params: { item: string } }) {
             </p>
           </motion.div>
         </div>
+        {related.length > 0 && (
+          <div className="mt-12">
+            <h2
+              className="text-xl font-bold mb-4"
+              style={{
+                fontFamily: "'Anton', sans-serif",
+                color: '#1B1714',
+                letterSpacing: '-0.01em',
+              }}
+            >
+              YOU MIGHT ALSO LIKE
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {related.map((rel) => (
+                <motion.div
+                  key={rel.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Link
+                    href={`/menu/${rel.id}`}
+                    className="block overflow-hidden transition-all hover:shadow-md"
+                    style={{
+                      background: '#E7E1D3',
+                      clipPath:
+                        'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)',
+                    }}
+                  >
+                    <div className="relative w-full aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={rel.image}
+                        alt={rel.name}
+                        fill
+                        sizes="25vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="p-3">
+                      <p
+                        className="text-sm font-bold"
+                        style={{
+                          color: '#1B1714',
+                          fontFamily: "'Work Sans', sans-serif",
+                        }}
+                      >
+                        {rel.name}
+                      </p>
+                      <p
+                        className="text-sm font-bold"
+                        style={{
+                          color: '#D62828',
+                          fontFamily: "'IBM Plex Mono', monospace",
+                        }}
+                      >
+                        Rs. {rel.price.toLocaleString()}
+                      </p>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </main>
+  );
+}
+
+function MetaTag({ label, accent = false }: { label: string; accent?: boolean }) {
+  return (
+    <span
+      className="text-xs font-medium px-2 py-0.5"
+      style={{
+        background: accent ? '#D6282830' : '#E7E1D3',
+        color: '#1B1714',
+        fontFamily: "'Work Sans', sans-serif",
+        clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 0 100%)',
+      }}
+    >
+      {label}
+    </span>
   );
 }

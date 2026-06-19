@@ -1,0 +1,18 @@
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./eDev2Production datafood demofoodappmenu[item]page.tsx:24:39
+Type error: ',' expected.
+
+[0m [90m 22 |[39m[0m
+[0m [90m 23 |[39m   [36mconst[39m cartItem [33m=[39m cartItems[33m.[39mfind((i) [33m=>[39m i[33m.[39mid [33m===[39m item[33m.[39mid)[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 24 |[39m   [36mconst[39m quantity [33m=[39m cartItem[33m?[39m[33m.[39mquantity steep [33m>[39m [35m0[39m [33m?[39m cartItem[33m.[39mquantity [33m:[39m [35m0[39m[33m;[39m[0m
+[0m [90m    |[39m                                       [31m[1m^[22m[39m[0m
+[0m [90m 25 |[39m[0m
+[0m [90m 26 |[39m   [36mconst[39m handleAdd [33m=[39m () [33m=>[39m {[0m
+[0m [90m 27 |[39m     addItem({ id[33m:[39m item[33m.[39mid[33m,[39m name[33m:[39m item[33m.[39mname[33m,[39m price[33m:[39m item[33m.[39mprice[33m,[39m image[33m:[39m item[33m.[39mimage })[33m;[39m[0m
+Next.js build worker exited with code: 1 and signal: null
