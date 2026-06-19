@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Search, MapPin, ChevronRight, Star } from 'lucide-react';
-import CuisineCircle from '@/components/ui/CuisineCircle';
+import { Search, MapPin, ChevronRight } from 'lucide-react';
+
 import { cuisineTiles, featuredItems } from '@/lib/data/menu';
 
 import MenuCard from '@/components/ui/MenuCard';
@@ -73,7 +73,7 @@ export default function HomePage() {
 
       {/* ─── WHAT'S ON YOUR MIND? ─── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <h2 className="text-xl md:text-2xl font-bold text-ink mb-6">What's on your mind?</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-ink mb-6">What&apos;s on your mind?</h2>
         <div className="flex overflow-x-auto no-scrollbar gap-4 md:gap-6 pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
           {cuisineTiles.slice(0, 6).map((c) => (
             <Link key={c.id} href={`/menu`} className="min-w-[80px] md:min-w-[120px] flex flex-col items-center group cursor-pointer">
