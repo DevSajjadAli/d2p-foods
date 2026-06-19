@@ -75,31 +75,18 @@ export default function CheckoutPage() {
     router.push(`/order/${orderId}`);
   };
 
-  const inputStyle = {
-    fontFamily: "'Work Sans', sans-serif",
-    borderColor: '#E7E1D3',
-    background: '#fff',
-    color: '#1B1714',
-    clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)',
-  };
-
-  const labelStyle = {
-    color: '#1B1714',
-    fontFamily: "'Work Sans', sans-serif",
-  };
+  const inputClassName = "w-full h-12 px-4 text-sm bg-bg border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all text-ink";
+  const labelClassName = "block text-sm font-semibold mb-1.5 text-ink";
 
   return (
-    <main className="min-h-screen pb-20" style={{ background: '#F7F3EA' }}>
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
-        <h1
-          className="text-4xl sm:text-5xl mb-8"
-          style={{ fontFamily: "'Anton', sans-serif", color: '#1B1714', letterSpacing: '-0.02em' }}
-        >
-          CHECKOUT
+    <main className="min-h-screen pb-20 bg-bg">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+        <h1 className="text-3xl md:text-4xl font-bold text-ink tracking-tight mb-8">
+          Checkout
         </h1>
 
         {/* Step indicator */}
-        <nav className="flex items-center mb-8" aria-label="Checkout steps">
+        <nav className="flex items-center mb-8 bg-white p-4 rounded-2xl shadow-sm border border-gray-100" aria-label="Checkout steps">
           {steps.map((s, i) => {
             const Icon = s.icon;
             const isActive = step === s.id;
@@ -107,30 +94,28 @@ export default function CheckoutPage() {
             return (
               <div key={s.id} className="flex items-center flex-1">
                 <div
-                  className="flex flex-col items-center"
+                  className="flex flex-col items-center relative z-10"
                   aria-current={isActive ? 'step' : undefined}
                 >
                   <div
-                    className="w-10 h-10 flex items-center justify-center font-bold text-sm transition-all"
-                    style={{
-                      background: isDone ? '#22c55e' : isActive ? '#D62828' : '#E7E1D3',
-                      color: isDone || isActive ? '#fff' : '#6E6557',
-                      clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)',
-                    }}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all shadow-sm ${
+                      isDone ? 'bg-success text-white' : isActive ? 'bg-primary text-white' : 'bg-gray-100 text-muted'
+                    }`}
                   >
-                    {isDone ? <CheckCircle size={16} aria-hidden="true" /> : <Icon size={16} aria-hidden="true" />}
+                    {isDone ? <CheckCircle size={18} aria-hidden="true" /> : <Icon size={18} aria-hidden="true" />}
                   </div>
                   <span
-                    className="text-xs mt-1 font-medium"
-                    style={{ color: isActive ? '#D62828' : '#6E6557', fontFamily: "'Work Sans', sans-serif" }}
+                    className={`text-xs mt-2 font-semibold absolute top-10 whitespace-nowrap ${
+                      isActive ? 'text-primary' : 'text-muted'
+                    }`}
                   >
                     {s.label}
                   </span>
                 </div>
                 {i < steps.length - 1 && (
                   <div
-                    className="flex-1 h-0.5 mx-2 mt-[-12px]"
-                    style={{ background: step > s.id ? '#22c55e' : '#E7E1D3' }}
+                    className="flex-1 h-1 mx-2 rounded-full"
+                    style={{ background: step > s.id ? '#267E3E' : '#f3f4f6' }}
                     aria-hidden="true"
                   />
                 )}
@@ -139,352 +124,307 @@ export default function CheckoutPage() {
           })}
         </nav>
 
-        <AnimatePresence mode="wait">
-          {/* STEP 1: Address */}
-          {step === 1 && (
-            <motion.div
-              key="step1"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.25 }}
-            >
-              <form onSubmit={addressForm.handleSubmit(handleAddressSubmit)} className="space-y-4">
-                <div>
-                  <label htmlFor="fullName" className="block text-sm font-semibold mb-1" style={labelStyle}>
-                    Full Name *
-                  </label>
-                  <input
-                    id="fullName"
-                    {...addressForm.register('fullName')}
-                    className="w-full h-11 px-4 text-sm border-2 focus:outline-none focus:border-ember transition-colors"
-                    style={inputStyle}
-                    placeholder="Ahmed Khan"
-                    autoComplete="name"
-                  />
-                  {addressForm.formState.errors.fullName && (
-                    <p className="text-xs mt-1" style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}>
-                      {addressForm.formState.errors.fullName.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-semibold mb-1" style={labelStyle}>
-                    Phone Number *
-                  </label>
-                  <input
-                    id="phone"
-                    {...addressForm.register('phone')}
-                    className="w-full h-11 px-4 text-sm border-2 focus:outline-none focus:border-ember transition-colors"
-                    style={{ ...inputStyle, fontFamily: "'IBM Plex Mono', monospace" }}
-                    placeholder="+92 300 0000000"
-                    autoComplete="tel"
-                    type="tel"
-                  />
-                  {addressForm.formState.errors.phone && (
-                    <p className="text-xs mt-1" style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}>
-                      {addressForm.formState.errors.phone.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="address" className="block text-sm font-semibold mb-1" style={labelStyle}>
-                    Delivery Address *
-                  </label>
-                  <textarea
-                    id="address"
-                    {...addressForm.register('address')}
-                    className="w-full px-4 py-3 text-sm border-2 focus:outline-none focus:border-ember transition-colors resize-none"
-                    style={{ ...inputStyle, height: 80, clipPath: 'none', borderRadius: 0 }}
-                    placeholder="House #, Street, Area..."
-                    autoComplete="street-address"
-                  />
-                  {addressForm.formState.errors.address && (
-                    <p className="text-xs mt-1" style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}>
-                      {addressForm.formState.errors.address.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="city" className="block text-sm font-semibold mb-1" style={labelStyle}>
-                    City *
-                  </label>
-                  <select
-                    id="city"
-                    {...addressForm.register('city')}
-                    className="w-full h-11 px-4 text-sm border-2 focus:outline-none focus:border-ember transition-colors"
-                    style={{ ...inputStyle, clipPath: 'none' }}
-                  >
-                    <option value="">Select city...</option>
-                    {['Lahore', 'Karachi', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan'].map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                  </select>
-                  {addressForm.formState.errors.city && (
-                    <p className="text-xs mt-1" style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}>
-                      {addressForm.formState.errors.city.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="instructions" className="block text-sm font-semibold mb-1" style={labelStyle}>
-                    Delivery Instructions <span style={{ color: '#6E6557' }}>(optional)</span>
-                  </label>
-                  <input
-                    id="instructions"
-                    {...addressForm.register('instructions')}
-                    className="w-full h-11 px-4 text-sm border-2 focus:outline-none focus:border-ember transition-colors"
-                    style={inputStyle}
-                    placeholder="Ring the bell, leave at door..."
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full h-13 py-4 text-white font-bold text-sm transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember mt-2"
-                  style={{
-                    background: '#D62828',
-                    fontFamily: "'Work Sans', sans-serif",
-                    clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)',
-                  }}
-                >
-                  CONTINUE TO PAYMENT →
-                </button>
-              </form>
-            </motion.div>
-          )}
-
-          {/* STEP 2: Payment */}
-          {step === 2 && (
-            <motion.div
-              key="step2"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.25 }}
-            >
-              <form onSubmit={paymentForm.handleSubmit(handlePaymentSubmit)} className="space-y-4">
-                <div role="group" aria-label="Payment method">
-                  <p className="text-sm font-semibold mb-3" style={labelStyle}>Select Payment Method *</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    {[
-                      { value: 'cod', label: 'Cash on Delivery', emoji: '💵' },
-                      { value: 'jazzcash', label: 'JazzCash', emoji: '📱' },
-                      { value: 'easypaisa', label: 'Easypaisa', emoji: '💚' },
-                      { value: 'card', label: 'Debit / Credit Card', emoji: '💳' },
-                    ].map(({ value, label, emoji }) => {
-                      const isSelected = selectedMethod === value;
-                      return (
-                        <label
-                          key={value}
-                          className="flex items-center gap-3 p-4 cursor-pointer transition-all border-2"
-                          style={{
-                            borderColor: isSelected ? '#D62828' : '#E7E1D3',
-                            background: isSelected ? '#fff5f5' : '#E7E1D3',
-                            clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)',
-                          }}
-                        >
-                          <input
-                            type="radio"
-                            value={value}
-                            {...paymentForm.register('method')}
-                            className="sr-only"
-                          />
-                          <span className="text-xl" aria-hidden="true">{emoji}</span>
-                          <span className="text-sm font-medium" style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}>
-                            {label}
-                          </span>
-                        </label>
-                      );
-                    })}
+        <div className="mt-10">
+          <AnimatePresence mode="wait">
+            {/* STEP 1: Address */}
+            {step === 1 && (
+              <motion.div
+                key="step1"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.25 }}
+                className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-100"
+              >
+                <form onSubmit={addressForm.handleSubmit(handleAddressSubmit)} className="space-y-5">
+                  <div>
+                    <label htmlFor="fullName" className={labelClassName}>
+                      Full Name *
+                    </label>
+                    <input
+                      id="fullName"
+                      {...addressForm.register('fullName')}
+                      className={inputClassName}
+                      placeholder="Ahmed Khan"
+                      autoComplete="name"
+                    />
+                    {addressForm.formState.errors.fullName && (
+                      <p className="text-xs mt-1 text-primary">
+                        {addressForm.formState.errors.fullName.message}
+                      </p>
+                    )}
                   </div>
-                </div>
 
-                {/* Card fields */}
-                {selectedMethod === 'card' && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    className="space-y-3"
-                  >
-                    <div>
-                      <label htmlFor="cardNumber" className="block text-sm font-semibold mb-1" style={labelStyle}>Card Number</label>
-                      <input
-                        id="cardNumber"
-                        {...paymentForm.register('cardNumber')}
-                        className="w-full h-11 px-4 text-sm border-2 focus:outline-none focus:border-ember"
-                        style={{ ...inputStyle, fontFamily: "'IBM Plex Mono', monospace" }}
-                        placeholder="0000 0000 0000 0000"
-                        maxLength={19}
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label htmlFor="cardExpiry" className="block text-sm font-semibold mb-1" style={labelStyle}>Expiry</label>
-                        <input
-                          id="cardExpiry"
-                          {...paymentForm.register('cardExpiry')}
-                          className="w-full h-11 px-4 text-sm border-2 focus:outline-none focus:border-ember"
-                          style={{ ...inputStyle, fontFamily: "'IBM Plex Mono', monospace" }}
-                          placeholder="MM/YY"
-                          maxLength={5}
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="cardCvc" className="block text-sm font-semibold mb-1" style={labelStyle}>CVC</label>
-                        <input
-                          id="cardCvc"
-                          {...paymentForm.register('cardCvc')}
-                          className="w-full h-11 px-4 text-sm border-2 focus:outline-none focus:border-ember"
-                          style={{ ...inputStyle, fontFamily: "'IBM Plex Mono', monospace" }}
-                          placeholder="123"
-                          maxLength={4}
-                          type="password"
-                        />
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
+                  <div>
+                    <label htmlFor="phone" className={labelClassName}>
+                      Phone Number *
+                    </label>
+                    <input
+                      id="phone"
+                      {...addressForm.register('phone')}
+                      className={inputClassName}
+                      placeholder="+92 300 0000000"
+                      autoComplete="tel"
+                      type="tel"
+                    />
+                    {addressForm.formState.errors.phone && (
+                      <p className="text-xs mt-1 text-primary">
+                        {addressForm.formState.errors.phone.message}
+                      </p>
+                    )}
+                  </div>
 
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setStep(1)}
-                    className="flex-1 h-12 text-sm font-bold border-2 transition-colors hover:bg-ash focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-                    style={{
-                      borderColor: '#1B1714',
-                      color: '#1B1714',
-                      fontFamily: "'Work Sans', sans-serif",
-                    }}
-                  >
-                    ← BACK
-                  </button>
+                  <div>
+                    <label htmlFor="address" className={labelClassName}>
+                      Delivery Address *
+                    </label>
+                    <textarea
+                      id="address"
+                      {...addressForm.register('address')}
+                      className={`${inputClassName} py-3 h-24 resize-none`}
+                      placeholder="House #, Street, Area..."
+                      autoComplete="street-address"
+                    />
+                    {addressForm.formState.errors.address && (
+                      <p className="text-xs mt-1 text-primary">
+                        {addressForm.formState.errors.address.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="city" className={labelClassName}>
+                      City *
+                    </label>
+                    <select
+                      id="city"
+                      {...addressForm.register('city')}
+                      className={inputClassName}
+                    >
+                      <option value="">Select city...</option>
+                      {['Lahore', 'Karachi', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan'].map((c) => (
+                         <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
+                    {addressForm.formState.errors.city && (
+                      <p className="text-xs mt-1 text-primary">
+                        {addressForm.formState.errors.city.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label htmlFor="instructions" className={labelClassName}>
+                      Delivery Instructions <span className="text-muted font-normal">(optional)</span>
+                    </label>
+                    <input
+                      id="instructions"
+                      {...addressForm.register('instructions')}
+                      className={inputClassName}
+                      placeholder="Ring the bell, leave at door..."
+                    />
+                  </div>
+
                   <button
                     type="submit"
-                    className="flex-[2] h-12 text-white font-bold text-sm transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-                    style={{
-                      background: '#D62828',
-                      fontFamily: "'Work Sans', sans-serif",
-                      clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)',
-                    }}
+                    className="w-full h-12 flex items-center justify-center bg-primary text-white font-bold rounded-xl transition-colors hover:bg-primary/90 mt-6"
                   >
-                    REVIEW ORDER →
+                    Continue to Payment
                   </button>
-                </div>
-              </form>
-            </motion.div>
-          )}
+                </form>
+              </motion.div>
+            )}
 
-          {/* STEP 3: Review */}
-          {step === 3 && addressData && paymentData && (
-            <motion.div
-              key="step3"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.25 }}
-              className="space-y-4"
-            >
-              {/* Items summary */}
-              <div
-                className="p-5 space-y-3"
-                style={{
-                  background: '#E7E1D3',
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
-                }}
+            {/* STEP 2: Payment */}
+            {step === 2 && (
+              <motion.div
+                key="step2"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.25 }}
+                className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-100"
               >
-                <h2 className="font-bold text-sm" style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}>
-                  Order Items
-                </h2>
-                {items.map((item) => (
-                  <div key={item.id} className="flex justify-between text-sm" style={{ fontFamily: "'Work Sans', sans-serif" }}>
-                    <span style={{ color: '#6E6557' }}>{item.name} × {item.quantity}</span>
-                    <span style={{ color: '#1B1714', fontFamily: "'IBM Plex Mono', monospace" }}>
-                      Rs. {(item.price * item.quantity).toLocaleString()}
+                <form onSubmit={paymentForm.handleSubmit(handlePaymentSubmit)} className="space-y-6">
+                  <div role="group" aria-label="Payment method">
+                    <p className={labelClassName}>Select Payment Method *</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {[
+                        { value: 'cod', label: 'Cash on Delivery', emoji: '💵' },
+                        { value: 'jazzcash', label: 'JazzCash', emoji: '📱' },
+                        { value: 'easypaisa', label: 'Easypaisa', emoji: '💚' },
+                        { value: 'card', label: 'Debit / Credit Card', emoji: '💳' },
+                      ].map(({ value, label, emoji }) => {
+                        const isSelected = selectedMethod === value;
+                        return (
+                          <label
+                            key={value}
+                            className={`flex items-center gap-3 p-4 cursor-pointer transition-all border rounded-xl ${
+                              isSelected ? 'border-primary bg-primary/5' : 'border-gray-200 bg-bg hover:border-primary/50'
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              value={value}
+                              {...paymentForm.register('method')}
+                              className="sr-only"
+                            />
+                            <span className="text-xl" aria-hidden="true">{emoji}</span>
+                            <span className={`text-sm font-medium ${isSelected ? 'text-primary font-bold' : 'text-ink'}`}>
+                              {label}
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Card fields */}
+                  {selectedMethod === 'card' && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="space-y-4 pt-2"
+                    >
+                      <div>
+                        <label htmlFor="cardNumber" className={labelClassName}>Card Number</label>
+                        <input
+                          id="cardNumber"
+                          {...paymentForm.register('cardNumber')}
+                          className={inputClassName}
+                          placeholder="0000 0000 0000 0000"
+                          maxLength={19}
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label htmlFor="cardExpiry" className={labelClassName}>Expiry</label>
+                          <input
+                            id="cardExpiry"
+                            {...paymentForm.register('cardExpiry')}
+                            className={inputClassName}
+                            placeholder="MM/YY"
+                            maxLength={5}
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="cardCvc" className={labelClassName}>CVC</label>
+                          <input
+                            id="cardCvc"
+                            {...paymentForm.register('cardCvc')}
+                            className={inputClassName}
+                            placeholder="123"
+                            maxLength={4}
+                            type="password"
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  <div className="flex gap-3 pt-4">
+                    <button
+                      type="button"
+                      onClick={() => setStep(1)}
+                      className="flex-1 h-12 flex items-center justify-center font-bold bg-bg text-ink border border-gray-200 rounded-xl transition-colors hover:bg-gray-100"
+                    >
+                      Back
+                    </button>
+                    <button
+                      type="submit"
+                      className="flex-[2] h-12 flex items-center justify-center bg-primary text-white font-bold rounded-xl transition-colors hover:bg-primary/90"
+                    >
+                      Review Order
+                    </button>
+                  </div>
+                </form>
+              </motion.div>
+            )}
+
+            {/* STEP 3: Review */}
+            {step === 3 && addressData && paymentData && (
+              <motion.div
+                key="step3"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.25 }}
+                className="space-y-4"
+              >
+                {/* Items summary */}
+                <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                  <h2 className="font-bold text-lg text-ink">
+                    Order Items
+                  </h2>
+                  <div className="space-y-3">
+                    {items.map((item) => (
+                      <div key={item.id} className="flex justify-between text-sm">
+                        <span className="text-muted">{item.name} × {item.quantity}</span>
+                        <span className="text-ink font-medium">
+                          Rs. {(item.price * item.quantity).toLocaleString()}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex justify-between font-bold pt-4 border-t border-gray-100 text-base">
+                    <span className="text-ink">Grand Total</span>
+                    <span className="text-primary">
+                      Rs. {(total + 100).toLocaleString()}
                     </span>
                   </div>
-                ))}
-                <div className="flex justify-between font-bold pt-2 border-t-2 text-base" style={{ borderColor: '#D5CEBC' }}>
-                  <span style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}>Total</span>
-                  <span style={{ color: '#D62828', fontFamily: "'IBM Plex Mono', monospace" }}>
-                    Rs. {(total + 100).toLocaleString()}
-                  </span>
                 </div>
-              </div>
 
-              {/* Delivery info */}
-              <div
-                className="p-5 space-y-2"
-                style={{
-                  background: '#E7E1D3',
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
-                }}
-              >
-                <h2 className="font-bold text-sm" style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}>
-                  Delivering To
-                </h2>
-                <p className="text-sm" style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}>
-                  {addressData.fullName} — {addressData.phone}
-                </p>
-                <p className="text-sm" style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}>
-                  {addressData.address}, {addressData.city}
-                </p>
-              </div>
+                {/* Delivery info */}
+                <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100 space-y-2">
+                  <h2 className="font-bold text-lg text-ink mb-2">
+                    Delivering To
+                  </h2>
+                  <p className="text-sm font-medium text-ink">
+                    {addressData.fullName}
+                  </p>
+                  <p className="text-sm text-muted">
+                    {addressData.phone}
+                  </p>
+                  <p className="text-sm text-muted">
+                    {addressData.address}, {addressData.city}
+                  </p>
+                </div>
 
-              {/* Payment method */}
-              <div
-                className="p-5"
-                style={{
-                  background: '#E7E1D3',
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
-                }}
-              >
-                <h2 className="font-bold text-sm mb-1" style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}>
-                  Payment
-                </h2>
-                <p className="text-sm capitalize" style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}>
-                  {paymentData.method === 'cod'
-                    ? '💵 Cash on Delivery'
-                    : paymentData.method === 'jazzcash'
-                    ? '📱 JazzCash'
-                    : paymentData.method === 'easypaisa'
-                    ? '💚 Easypaisa'
-                    : '💳 Debit / Credit Card'}
-                </p>
-              </div>
+                {/* Payment method */}
+                <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+                  <h2 className="font-bold text-lg text-ink mb-2">
+                    Payment Method
+                  </h2>
+                  <p className="text-sm font-medium text-ink capitalize flex items-center gap-2">
+                    {paymentData.method === 'cod'
+                      ? '💵 Cash on Delivery'
+                      : paymentData.method === 'jazzcash'
+                      ? '📱 JazzCash'
+                      : paymentData.method === 'easypaisa'
+                      ? '💚 Easypaisa'
+                      : '💳 Debit / Credit Card'}
+                  </p>
+                </div>
 
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setStep(2)}
-                  className="flex-1 h-12 text-sm font-bold border-2 transition-colors hover:bg-ash focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-                  style={{
-                    borderColor: '#1B1714',
-                    color: '#1B1714',
-                    fontFamily: "'Work Sans', sans-serif",
-                  }}
-                >
-                  ← BACK
-                </button>
-                <button
-                  onClick={handlePlaceOrder}
-                  disabled={placing}
-                  className="flex-[2] h-12 text-white font-bold text-sm transition-all active:scale-95 disabled:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-                  style={{
-                    background: '#D62828',
-                    fontFamily: "'Work Sans', sans-serif",
-                    clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)',
-                  }}
-                >
-                  {placing ? 'PLACING ORDER...' : 'PLACE ORDER 🔥'}
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                <div className="flex gap-3 pt-2">
+                  <button
+                    onClick={() => setStep(2)}
+                    className="flex-1 h-12 flex items-center justify-center font-bold bg-white text-ink border border-gray-200 rounded-xl transition-colors hover:bg-gray-50"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={handlePlaceOrder}
+                    disabled={placing}
+                    className="flex-[2] h-12 flex items-center justify-center bg-primary text-white font-bold rounded-xl transition-all hover:bg-primary/90 disabled:opacity-70"
+                  >
+                    {placing ? 'Placing Order...' : 'Place Order 🔥'}
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </main>
   );

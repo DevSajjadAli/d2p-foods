@@ -7,9 +7,11 @@ import { Search, MapPin, ChevronRight, Star } from 'lucide-react';
 import CuisineCircle from '@/components/ui/CuisineCircle';
 import { cuisineTiles, featuredItems } from '@/lib/data/menu';
 
+import MenuCard from '@/components/ui/MenuCard';
+
 export default function HomePage() {
   return (
-    <main className="bg-white min-h-screen">
+    <main className="bg-bg min-h-screen pb-24">
       {/* ─── ZOMATO-STYLE HERO ─── */}
       <section className="relative w-full h-[60vh] min-h-[400px] max-h-[600px] flex flex-col items-center justify-center">
         <div className="absolute inset-0 w-full h-full">
@@ -69,13 +71,39 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── INSPIRATION CIRCLES ─── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <h2 className="text-2xl md:text-3xl font-semibold text-char mb-8">Inspiration for your first order</h2>
-        <div className="flex overflow-x-auto no-scrollbar gap-6 pb-4">
-          {cuisineTiles.map((c) => (
-            <div key={c.id} className="min-w-[120px] md:min-w-[140px]">
-              <CuisineCircle image={c.image} label={c.label} href={`/menu`} />
+      {/* ─── WHAT'S ON YOUR MIND? ─── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <h2 className="text-xl md:text-2xl font-bold text-ink mb-6">What's on your mind?</h2>
+        <div className="flex overflow-x-auto no-scrollbar gap-4 md:gap-6 pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
+          {cuisineTiles.slice(0, 6).map((c) => (
+            <Link key={c.id} href={`/menu`} className="min-w-[80px] md:min-w-[120px] flex flex-col items-center group cursor-pointer">
+              <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-shadow mb-3 bg-white">
+                <Image src={c.image} alt={c.label} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+              </div>
+              <span className="text-sm md:text-base font-semibold text-ink/80 group-hover:text-ink">{c.label}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ─── REORDER CAROUSEL ─── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <h2 className="text-xl md:text-2xl font-bold text-ink mb-6">Reorder</h2>
+        <div className="flex overflow-x-auto no-scrollbar gap-4 pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
+          {[featuredItems[0], featuredItems[2], featuredItems[3]].map((item) => (
+            <div key={`reorder-${item.id}`} className="min-w-[280px] md:min-w-[320px]">
+              <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex gap-4">
+                <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-bg shrink-0">
+                  <Image src={item.image} alt={item.name} fill className="object-cover" />
+                </div>
+                <div className="flex flex-col flex-1 justify-center">
+                  <h3 className="font-bold text-ink text-sm line-clamp-1">{item.name}</h3>
+                  <p className="text-xs text-muted mb-2">Ordered 3 days ago</p>
+                  <Link href={`/menu`} className="text-primary text-xs font-bold uppercase tracking-wider flex items-center hover:opacity-80">
+                    Reorder <ChevronRight size={14} className="ml-1" />
+                  </Link>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -113,10 +141,10 @@ export default function HomePage() {
       </section>
 
       {/* ─── TOP RESTAURANTS / ITEMS GRID ─── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-32">
-        <h2 className="text-2xl md:text-3xl font-semibold text-char mb-8">Delivery Restaurants in Lahore</h2>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-12">
+        <h2 className="text-xl md:text-2xl font-bold text-ink mb-6">Top Picks for You</h2>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {featuredItems.map((item, i) => (
             <motion.div 
               key={item.id} 
@@ -124,45 +152,15 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }} 
               transition={{ duration: 0.35, delay: i * 0.05 }}
-              className="group"
+              className="group flex flex-col"
             >
-              <Link href={`/menu/${item.id}`} className="block rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 bg-white p-3 cursor-pointer">
-                <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden mb-3">
-                  <Image 
-                    src={item.image} 
-                    alt={item.name} 
-                    fill 
-                    className="object-cover group-hover:scale-105 transition-transform duration-500" 
-                  />
-                  <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-gray-800 flex items-center shadow-sm">
-                    {item.rating} <Star size={12} className="ml-1 text-green-600 fill-green-600" />
-                  </div>
-                  {item.ratingCount > 100 && (
-                     <div className="absolute bottom-2 right-2 bg-blue-600 text-white px-2 py-0.5 rounded-md text-[10px] font-bold shadow-sm">
-                       Promoted
-                     </div>
-                  )}
+              <MenuCard item={item} />
+              {item.popular && (
+                <div className="mt-2 text-xs text-muted flex items-center px-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary mr-1.5" />
+                  120+ ordered recently
                 </div>
-                
-                <div className="flex justify-between items-start mb-1">
-                  <h3 className="font-semibold text-lg text-char truncate pr-2">{item.name}</h3>
-                  <div className="flex items-center justify-center bg-green-700 text-white rounded-md px-1.5 py-0.5 text-xs font-bold shrink-0">
-                    4.2 <Star size={10} className="ml-0.5 fill-white" />
-                  </div>
-                </div>
-                
-                <div className="flex justify-between text-gray-500 text-sm mb-3">
-                  <span className="truncate pr-2">{item.category} • Fast Food</span>
-                  <span className="shrink-0">Rs {item.price} for one</span>
-                </div>
-
-                <div className="border-t border-gray-100 pt-3 flex items-center text-xs text-gray-500">
-                  <div className="bg-blue-50 text-blue-600 font-medium px-2 py-1 rounded mr-2">
-                    50% OFF
-                  </div>
-                  <span>Use WELCOME50</span>
-                </div>
-              </Link>
+              )}
             </motion.div>
           ))}
         </div>

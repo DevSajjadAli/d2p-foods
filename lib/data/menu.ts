@@ -13,6 +13,21 @@ export type MenuItem = {
   rating: number; // 0..5
   ratingCount: number;
   prepTime: number; // minutes
+  customizable?: boolean;
+  customizations?: CustomizationCategory[];
+};
+
+export type CustomizationOption = {
+  id: string;
+  name: string;
+  priceDelta: number;
+};
+
+export type CustomizationCategory = {
+  id: string;
+  name: string;
+  required: boolean;
+  options: CustomizationOption[];
 };
 
 export type Category = 'grilled' | 'wings' | 'combos' | 'sides' | 'drinks';
@@ -53,6 +68,27 @@ export const menuItems: MenuItem[] = [
     rating: 4.6,
     ratingCount: 1284,
     prepTime: 9,
+    customizable: true,
+    customizations: [
+      {
+        id: 'size',
+        name: 'Size',
+        required: true,
+        options: [
+          { id: 'regular', name: 'Regular', priceDelta: 0 },
+          { id: 'large', name: 'Large (+150)', priceDelta: 150 },
+        ],
+      },
+      {
+        id: 'add-ons',
+        name: 'Add-ons',
+        required: false,
+        options: [
+          { id: 'cheese', name: 'Extra Cheese', priceDelta: 60 },
+          { id: 'jalapenos', name: 'Jalapeños', priceDelta: 40 },
+        ],
+      },
+    ],
   },
   {
     id: 'double-smash',
@@ -173,6 +209,19 @@ export const menuItems: MenuItem[] = [
     rating: 4.6,
     ratingCount: 1063,
     prepTime: 16,
+    customizable: true,
+    customizations: [
+      {
+        id: 'drink',
+        name: 'Choose Drink',
+        required: true,
+        options: [
+          { id: 'pepsi', name: 'Pepsi', priceDelta: 0 },
+          { id: '7up', name: '7-Up', priceDelta: 0 },
+          { id: 'mirinda', name: 'Mirinda', priceDelta: 0 },
+        ],
+      },
+    ],
   },
   {
     id: 'double-combo',

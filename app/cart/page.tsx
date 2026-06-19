@@ -19,57 +19,37 @@ export default function CartPage() {
   const finalTotal = total + deliveryFee;
 
   return (
-    <main className="min-h-screen pb-32" style={{ background: '#F7F3EA' }}>
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1
-          className="text-4xl sm:text-5xl mb-8"
-          style={{
-            fontFamily: "'Anton', sans-serif",
-            color: '#1B1714',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          YOUR CART
+    <main className="min-h-screen pb-32 bg-bg">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <h1 className="text-3xl md:text-4xl font-bold text-ink tracking-tight mb-8">
+          Your Cart
         </h1>
 
         {items.length === 0 ? (
           /* Empty cart */
-          <div className="text-center py-20">
+          <div className="text-center py-20 bg-white rounded-2xl shadow-sm border border-gray-100">
             <ShoppingBag
               size={64}
-              className="mx-auto mb-4"
-              style={{ color: '#E7E1D3' }}
+              className="mx-auto mb-4 text-muted opacity-50"
               aria-hidden="true"
             />
-            <p
-              className="text-xl font-bold mb-2"
-              style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}
-            >
+            <p className="text-xl font-bold text-ink mb-2">
               Your cart is empty
             </p>
-            <p
-              className="text-sm mb-6"
-              style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}
-            >
+            <p className="text-sm text-muted mb-8">
               Looks like you haven&apos;t added anything yet.
             </p>
             <Link
               href="/menu"
-              className="inline-flex items-center gap-2 h-12 px-8 text-white font-bold text-sm transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-              style={{
-                background: '#D62828',
-                fontFamily: "'Work Sans', sans-serif",
-                clipPath:
-                  'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)',
-              }}
+              className="inline-flex items-center gap-2 h-12 px-8 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-colors"
             >
-              Browse Menu <ArrowRight size={16} aria-hidden="true" />
+              Browse Menu <ArrowRight size={18} aria-hidden="true" />
             </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Cart items */}
-            <div className="lg:col-span-2 space-y-3">
+            <div className="lg:col-span-2 space-y-4">
               <AnimatePresence>
                 {items.map((item) => (
                   <motion.div
@@ -79,84 +59,64 @@ export default function CartPage() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20, height: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="flex items-center gap-4 p-4"
-                    style={{
-                      background: '#E7E1D3',
-                      clipPath:
-                        'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
-                    }}
+                    className="flex items-start sm:items-center gap-4 p-4 bg-white rounded-2xl shadow-sm border border-gray-100"
                   >
                     {/* Thumbnail */}
-                    <div className="relative w-20 h-20 flex-shrink-0 overflow-hidden">
+                    <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 overflow-hidden rounded-xl bg-bg">
                       <Image
                         src={item.image}
                         alt={item.name}
                         fill
-                        sizes="80px"
+                        sizes="(max-width: 640px) 80px, 96px"
                         className="object-cover"
-                        style={{
-                          clipPath:
-                            'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)',
-                        }}
                       />
                     </div>
 
-                    {/* Name + Stepper */}
-                    <div className="flex-1 min-w-0">
-                      <p
-                        className="font-semibold text-sm mb-1 truncate"
-                        style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}
-                      >
+                    {/* Name + Customizations + Price */}
+                    <div className="flex-1 min-w-0 flex flex-col justify-center h-full">
+                      <p className="font-bold text-base text-ink mb-1 line-clamp-2">
                         {item.name}
                       </p>
-                      <p
-                        className="text-sm font-bold"
-                        style={{ color: '#D62828', fontFamily: "'IBM Plex Mono', monospace" }}
-                      >
+                      {item.customizations && (
+                        <p className="text-xs text-muted mb-2 line-clamp-2">
+                          {Object.values(item.customizations).join(', ')}
+                        </p>
+                      )}
+                      <p className="text-base font-bold text-ink mt-auto">
                         Rs. {(item.price * item.quantity).toLocaleString()}
                       </p>
                     </div>
 
-                    {/* Quantity controls */}
-                    <div
-                      className="flex items-center"
-                      role="group"
-                      aria-label={`Quantity for ${item.name}`}
-                    >
+                    {/* Quantity controls & Remove */}
+                    <div className="flex flex-col items-end gap-3 h-full justify-between">
+                      <div className="flex items-center bg-white border border-primary rounded-md overflow-hidden" role="group">
+                        <button
+                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          className="w-8 h-8 flex items-center justify-center hover:bg-primary/10 text-primary transition-colors focus:outline-none"
+                          aria-label="Decrease quantity"
+                        >
+                          <Minus size={14} aria-hidden="true" />
+                        </button>
+                        <span className="w-8 text-center text-sm font-bold text-ink">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          className="w-8 h-8 flex items-center justify-center hover:bg-primary/10 text-primary transition-colors focus:outline-none"
+                          aria-label="Increase quantity"
+                        >
+                          <Plus size={14} aria-hidden="true" />
+                        </button>
+                      </div>
+
                       <button
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="w-9 h-9 flex items-center justify-center hover:bg-bone/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ember rounded-sm"
-                        style={{ color: '#D62828' }}
-                        aria-label={`Decrease ${item.name} quantity`}
+                        onClick={() => removeItem(item.id)}
+                        className="text-xs text-muted hover:text-primary transition-colors flex items-center gap-1"
+                        aria-label="Remove from cart"
                       >
-                        <Minus size={14} aria-hidden="true" />
-                      </button>
-                      <span
-                        className="w-8 text-center text-sm font-bold"
-                        style={{ color: '#1B1714', fontFamily: "'IBM Plex Mono', monospace" }}
-                        aria-live="polite"
-                      >
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="w-9 h-9 flex items-center justify-center hover:bg-bone/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ember rounded-sm"
-                        style={{ color: '#D62828' }}
-                        aria-label={`Increase ${item.name} quantity`}
-                      >
-                        <Plus size={14} aria-hidden="true" />
+                        <Trash2 size={14} aria-hidden="true" /> Remove
                       </button>
                     </div>
-
-                    {/* Remove */}
-                    <button
-                      onClick={() => removeItem(item.id)}
-                      className="w-9 h-9 flex items-center justify-center hover:bg-bone/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ember rounded-sm"
-                      style={{ color: '#6E6557' }}
-                      aria-label={`Remove ${item.name} from cart`}
-                    >
-                      <Trash2 size={14} aria-hidden="true" />
-                    </button>
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -165,63 +125,40 @@ export default function CartPage() {
             {/* Order Summary */}
             <div className="space-y-4">
               {/* Promo */}
-              <div
-                className="p-5"
-                style={{
-                  background: '#E7E1D3',
-                  clipPath:
-                    'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
-                }}
-              >
+              <div className="p-5 bg-white rounded-2xl shadow-sm border border-gray-100">
                 <PromoCodeInput />
               </div>
 
               {/* Summary */}
-              <div
-                className="p-5 space-y-3"
-                style={{
-                  background: '#E7E1D3',
-                  clipPath:
-                    'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
-                }}
-              >
-                <h2
-                  className="font-bold text-base"
-                  style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}
-                >
+              <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                <h2 className="font-bold text-lg text-ink">
                   Order Summary
                 </h2>
 
-                <div
-                  className="space-y-2 text-sm"
-                  style={{ fontFamily: "'Work Sans', sans-serif" }}
-                >
-                  <div className="flex justify-between" style={{ color: '#6E6557' }}>
-                    <span>Subtotal</span>
-                    <span style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                <div className="space-y-3 text-sm text-muted">
+                  <div className="flex justify-between">
+                    <span>Item Total</span>
+                    <span className="text-ink font-medium">
                       Rs. {subtotal.toLocaleString()}
                     </span>
                   </div>
                   {discount > 0 && (
-                    <div className="flex justify-between" style={{ color: '#22c55e' }}>
+                    <div className="flex justify-between text-success">
                       <span>Promo ({discount}% off)</span>
-                      <span style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                      <span>
                         − Rs. {(subtotal - total).toLocaleString()}
                       </span>
                     </div>
                   )}
-                  <div className="flex justify-between" style={{ color: '#6E6557' }}>
+                  <div className="flex justify-between">
                     <span>Delivery fee</span>
-                    <span style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+                    <span className="text-ink font-medium">
                       Rs. {deliveryFee}
                     </span>
                   </div>
-                  <div
-                    className="flex justify-between font-bold text-base pt-2 border-t-2"
-                    style={{ borderColor: '#D5CEBC', color: '#1B1714' }}
-                  >
-                    <span>Total</span>
-                    <span style={{ color: '#D62828', fontFamily: "'IBM Plex Mono', monospace" }}>
+                  <div className="flex justify-between font-bold text-lg pt-4 border-t border-gray-100 text-ink">
+                    <span>Grand Total</span>
+                    <span>
                       Rs. {finalTotal.toLocaleString()}
                     </span>
                   </div>
@@ -229,15 +166,9 @@ export default function CartPage() {
 
                 <Link
                   href="/checkout"
-                  className="block w-full h-12 text-center leading-[48px] text-white font-bold text-sm transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember mt-4"
-                  style={{
-                    background: '#D62828',
-                    fontFamily: "'Work Sans', sans-serif",
-                    clipPath:
-                      'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)',
-                  }}
+                  className="mt-6 flex w-full h-12 items-center justify-center bg-primary text-white font-bold rounded-xl transition-colors hover:bg-primary/90"
                 >
-                  PROCEED TO CHECKOUT →
+                  Proceed to Checkout
                 </Link>
               </div>
             </div>

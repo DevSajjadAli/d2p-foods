@@ -10,20 +10,33 @@ const config: Config = {
     extend: {
       colors: {
         // Zomato Inspired Design Token System
-        bone: "#FFFFFF",    // Primary background
-        char: "#1C1C1C",    // Headlines, nav, primary text
-        ember: "#E23744",   // The one accent — Zomato Red
-        ash: "#F8F8F8",     // Card surfaces, dividers, hover states
-        smoke: "#696969",   // Secondary/muted text, captions
-        charcoal: "#000000", // Footer, dark sections, overlays
+        primary: "#E23744",   // The one accent — Zomato Red (same as ember)
+        ink: "#1C1C1C",       // Headings, item names (same as char)
+        muted: "#696B79",     // Descriptions, timestamps
+        success: "#267E3E",   // "Open" status, delivery confirmation
+        surface: "#FFFFFF",   // Card backgrounds
+        bg: "#F7F7F8",        // Page background
+        // Keep old tokens for backwards compatibility if needed during transition
+        bone: "#FFFFFF",
+        char: "#1C1C1C",
+        ember: "#E23744",
+        ash: "#F8F8F8",
+        smoke: "#696969",
+        charcoal: "#000000",
       },
       fontFamily: {
-        display: ["Work Sans", "sans-serif"],    // Clean UI font
-        body: ["Work Sans", "sans-serif"],   // Body text
-        mono: ["IBM Plex Mono", "monospace"], // Prices, order numbers
+        sans: ["Manrope", "Inter", "sans-serif"],
+        display: ["Manrope", "Inter", "sans-serif"],
+        body: ["Manrope", "Inter", "sans-serif"],
+        mono: ["IBM Plex Mono", "monospace"],
+      },
+      borderRadius: {
+        'card': '14px',
+      },
+      boxShadow: {
+        'card': '0 2px 8px rgba(0,0,0,0.06)',
       },
       clipPath: {
-        // Using basic rounded corners instead of harsh polygons for a cleaner look
         card: "none",
         "card-lg": "none",
         "card-xl": "none",

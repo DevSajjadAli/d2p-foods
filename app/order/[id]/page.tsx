@@ -39,58 +39,31 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
   const eta = currentStatusIndex >= 2 ? '8–12 min' : currentStatusIndex === 1 ? '20–25 min' : '30–35 min';
 
   return (
-    <main className="min-h-screen pb-20" style={{ background: '#F7F3EA' }}>
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
+    <main className="min-h-screen pb-20 bg-bg">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 md:py-12">
         {/* Header */}
-        <div className="mb-6">
-          <p
-            className="text-xs font-bold uppercase tracking-widest mb-1"
-            style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}
-          >
+        <div className="mb-6 bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+          <p className="text-sm font-bold uppercase tracking-widest mb-1 text-primary">
             Order Tracking
           </p>
-          <h1
-            className="text-3xl"
-            style={{
-              fontFamily: "'Anton', sans-serif",
-              color: '#1B1714',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            ORDER{' '}
-            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '0.85em' }}>
-              #{params.id}
-            </span>
+          <h1 className="text-2xl md:text-3xl font-bold text-ink tracking-tight">
+            Order <span className="text-muted text-xl">#{params.id}</span>
           </h1>
           {currentStatusIndex < statusSteps.length - 1 && (
-            <p className="text-sm mt-1" style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}>
-              Estimated delivery: <strong style={{ color: '#1B1714', fontFamily: "'IBM Plex Mono', monospace" }}>{eta}</strong>
+            <p className="text-sm mt-2 text-ink/80 font-medium">
+              Estimated delivery: <strong className="text-ink font-bold">{eta}</strong>
             </p>
           )}
         </div>
 
         {/* Map */}
-        <div
-          className="w-full h-52 mb-6 overflow-hidden relative"
-          style={{
-            clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)',
-          }}
-        >
+        <div className="w-full h-56 mb-6 overflow-hidden relative rounded-2xl shadow-sm border border-gray-100 bg-white">
           <OrderMap statusIndex={currentStatusIndex} />
         </div>
 
         {/* Status Timeline */}
-        <div
-          className="p-5 mb-6"
-          style={{
-            background: '#E7E1D3',
-            clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)',
-          }}
-        >
-          <h2
-            className="font-bold text-sm mb-4"
-            style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}
-          >
+        <div className="p-6 mb-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+          <h2 className="font-bold text-lg mb-6 text-ink">
             Order Status
           </h2>
           <ol className="relative space-y-0" aria-label="Order progress">
@@ -101,14 +74,14 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
               return (
                 <li
                   key={s.key}
-                  className="flex items-start gap-4 pb-6 last:pb-0 relative"
+                  className="flex items-start gap-5 pb-8 last:pb-0 relative"
                   aria-current={isActive ? 'step' : undefined}
                 >
                   {/* Vertical line */}
                   {i < statusSteps.length - 1 && (
                     <div
-                      className="absolute left-5 top-10 w-0.5 h-full"
-                      style={{ background: isDone ? '#D62828' : '#D5CEBC' }}
+                      className="absolute left-6 top-10 w-0.5 h-[calc(100%-1rem)]"
+                      style={{ background: isDone ? '#E23744' : '#f3f4f6' }}
                       aria-hidden="true"
                     />
                   )}
@@ -117,39 +90,30 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
                   <motion.div
                     animate={isActive ? { scale: [1, 1.15, 1] } : {}}
                     transition={isActive ? { repeat: Infinity, duration: 1.5 } : {}}
-                    className="w-10 h-10 flex items-center justify-center flex-shrink-0 z-10"
-                    style={{
-                      background: isDone ? '#D62828' : isActive ? '#1B1714' : '#D5CEBC',
-                      clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)',
-                    }}
+                    className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 z-10 ${
+                      isDone ? 'bg-primary text-white' : isActive ? 'bg-ink text-white shadow-lg' : 'bg-gray-100 text-muted'
+                    }`}
                     aria-hidden="true"
                   >
-                    <Icon size={16} className="text-white" />
+                    <Icon size={20} />
                   </motion.div>
 
                   {/* Text */}
-                  <div>
-                    <p
-                      className="font-bold text-sm"
-                      style={{
-                        color: isDone || isActive ? '#1B1714' : '#6E6557',
-                        fontFamily: "'Work Sans', sans-serif",
-                      }}
-                    >
+                  <div className="pt-1">
+                    <p className={`font-bold text-base ${isDone || isActive ? 'text-ink' : 'text-muted'}`}>
                       {s.label}
                     </p>
                     {isActive && (
                       <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="text-xs mt-0.5"
-                        style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}
+                        className="text-sm mt-1 text-primary font-medium"
                       >
                         {s.subtitle}
                       </motion.p>
                     )}
                     {isDone && (
-                      <p className="text-xs mt-0.5" style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}>
+                      <p className="text-sm mt-1 text-muted">
                         ✓ Done
                       </p>
                     )}
@@ -165,24 +129,16 @@ export default function OrderTrackingPage({ params }: { params: { id: string } }
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center space-y-4"
+            className="text-center space-y-6 pt-4"
           >
-            <p
-              className="text-2xl font-bold"
-              style={{ fontFamily: "'Anton', sans-serif", color: '#1B1714' }}
-            >
-              ENJOY YOUR MEAL! 🔥
+            <p className="text-2xl font-bold text-ink">
+              Enjoy your meal! 🔥
             </p>
             <Link
               href="/menu"
-              className="inline-block h-12 px-8 leading-[48px] text-white font-bold text-sm transition-all active:scale-95"
-              style={{
-                background: '#D62828',
-                fontFamily: "'Work Sans', sans-serif",
-                clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)',
-              }}
+              className="inline-flex h-12 px-8 items-center justify-center bg-primary text-white font-bold rounded-xl transition-all hover:bg-primary/90"
             >
-              ORDER AGAIN →
+              Order Again
             </Link>
           </motion.div>
         )}

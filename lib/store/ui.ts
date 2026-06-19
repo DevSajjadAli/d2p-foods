@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+import { MenuItem } from '../data/menu';
+
 interface UIStore {
   // Cart drawer
   cartDrawerOpen: boolean;
@@ -17,6 +19,12 @@ interface UIStore {
   closeLocationPicker: () => void;
   selectedLocation: string;
   setSelectedLocation: (loc: string) => void;
+
+  // Customization Modal
+  customizationModalOpen: boolean;
+  selectedMenuItemForCustomization: MenuItem | null;
+  openCustomizationModal: (item: MenuItem) => void;
+  closeCustomizationModal: () => void;
 }
 
 export const useUIStore = create<UIStore>((set) => ({
@@ -33,4 +41,9 @@ export const useUIStore = create<UIStore>((set) => ({
   closeLocationPicker: () => set({ locationPickerOpen: false }),
   selectedLocation: 'Lahore',
   setSelectedLocation: (loc) => set({ selectedLocation: loc }),
+
+  customizationModalOpen: false,
+  selectedMenuItemForCustomization: null,
+  openCustomizationModal: (item) => set({ customizationModalOpen: true, selectedMenuItemForCustomization: item }),
+  closeCustomizationModal: () => set({ customizationModalOpen: false, selectedMenuItemForCustomization: null }),
 }));

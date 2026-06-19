@@ -19,16 +19,13 @@ export default function CategoryChipRow({ active, onChange }: CategoryChipRowPro
         role="tab"
         aria-selected={active === 'all'}
         onClick={() => onChange('all')}
-        className="flex-shrink-0 flex items-center gap-1.5 px-4 h-11 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember whitespace-nowrap"
-        style={{
-          fontFamily: "'Work Sans', sans-serif",
-          clipPath:
-            'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)',
-          background: active === 'all' ? '#D62828' : '#E7E1D3',
-          color: active === 'all' ? '#fff' : '#1B1714',
-        }}
+        className={`flex-shrink-0 flex items-center gap-1.5 px-5 h-10 text-sm font-semibold transition-all duration-200 focus:outline-none rounded-full border ${
+          active === 'all'
+            ? 'bg-primary text-white border-primary shadow-sm'
+            : 'bg-white text-ink border-gray-200 hover:bg-bg'
+        }`}
       >
-        🍽️ All
+        All
       </button>
 
       {categories.map((cat) => (
@@ -37,16 +34,13 @@ export default function CategoryChipRow({ active, onChange }: CategoryChipRowPro
           role="tab"
           aria-selected={active === cat.id}
           onClick={() => onChange(cat.id)}
-          className="flex-shrink-0 flex items-center gap-1.5 px-4 h-11 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember whitespace-nowrap"
-          style={{
-            fontFamily: "'Work Sans', sans-serif",
-            clipPath:
-              'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)',
-            background: active === cat.id ? '#D62828' : '#E7E1D3',
-            color: active === cat.id ? '#fff' : '#1B1714',
-          }}
+          className={`flex-shrink-0 flex items-center gap-1.5 px-5 h-10 text-sm font-semibold transition-all duration-200 focus:outline-none rounded-full border ${
+            active === cat.id
+              ? 'bg-primary text-white border-primary shadow-sm'
+              : 'bg-white text-ink border-gray-200 hover:bg-bg'
+          }`}
         >
-          {cat.emoji} {cat.label}
+          {cat.label}
         </button>
       ))}
     </div>

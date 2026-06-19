@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Work_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Manrope, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -9,8 +9,9 @@ import InstallBanner from "@/components/pwa/InstallBanner";
 import UpdateToast from "@/components/pwa/UpdateToast";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import OfferPopup from "@/components/ui/OfferPopup";
+import CustomizationModal from "@/components/ui/CustomizationModal";
 
-const workSans = Work_Sans({
+const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
@@ -104,7 +105,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${workSans.variable} ${ibmPlexMono.variable}`}>
+    <html lang="en" className={`${manrope.variable} ${ibmPlexMono.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <script
@@ -113,7 +114,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className="bg-white text-char font-body selection:bg-ember selection:text-white"
+        className="bg-bg text-ink font-sans selection:bg-primary selection:text-white pb-20 md:pb-0"
       >
         <Header />
         <InstallBanner />
@@ -123,6 +124,7 @@ export default function RootLayout({
         <WhatsAppButton />
         <BottomNav />
         <OfferPopup />
+        <CustomizationModal />
         <Footer />
       </body>
     </html>

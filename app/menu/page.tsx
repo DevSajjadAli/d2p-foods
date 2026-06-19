@@ -76,38 +76,42 @@ export default function MenuPage() {
     : [];
 
   return (
-    <main className="min-h-screen" style={{ background: '#F7F3EA' }}>
+    <main className="min-h-screen bg-bg">
       <RestaurantHeader />
 
       {/* Sticky filter bar */}
-      <div className="sticky top-14 z-30 border-b-2 px-4 sm:px-6 lg:px-8 py-3" style={{ background: '#F7F3EA', borderColor: '#E7E1D3' }}>
+      <div className="sticky top-14 z-30 border-b border-gray-100 bg-white px-4 sm:px-6 lg:px-8 py-3">
         <div className="max-w-7xl mx-auto space-y-3">
           {/* Search + Filter button */}
           <div className="flex items-center gap-3">
             <div className="relative flex-1">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: '#6E6557' }} aria-hidden="true" />
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted pointer-events-none" aria-hidden="true" />
               <input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search the menu..."
-                className="w-full h-11 pl-9 pr-10 text-sm border-2 focus:outline-none focus:border-ember transition-colors"
-                style={{ fontFamily: "'Work Sans', sans-serif", borderColor: '#E7E1D3', background: '#fff', color: '#1B1714', clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)' }}
+                className="w-full h-12 pl-11 pr-10 text-sm bg-bg border border-transparent rounded-xl focus:outline-none focus:bg-white focus:border-primary transition-colors text-ink placeholder-muted"
                 aria-label="Search menu items"
               />
               {searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors focus:outline-none" aria-label="Clear search" style={{ color: '#6E6557' }}>
-                  <X size={14} aria-hidden="true" />
+                <button onClick={() => setSearchQuery('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted hover:text-ink transition-colors focus:outline-none" aria-label="Clear search">
+                  <X size={16} aria-hidden="true" />
                 </button>
               )}
             </div>
             <button
               onClick={openFilterSheet}
-              className="relative h-11 px-4 text-sm font-semibold flex items-center gap-2 transition-all active:scale-95 border-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-              style={{ borderColor: activeCount > 0 ? '#D62828' : '#E7E1D3', background: activeCount > 0 ? '#fff5f5' : '#E7E1D3', color: '#1B1714', fontFamily: "'Work Sans', sans-serif", clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)' }}
+              className={`relative h-12 px-5 text-sm font-semibold flex items-center gap-2 transition-all rounded-xl border focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                activeCount > 0 ? 'bg-primary/10 border-primary text-primary' : 'bg-white border-gray-200 text-ink hover:bg-bg'
+              }`}
             >
               Filters
-              {activeCount > 0 && <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold text-white" style={{ background: '#D62828', fontFamily: "'IBM Plex Mono', monospace" }}>{activeCount}</span>}
+              {activeCount > 0 && (
+                <span className="inline-flex items-center justify-center min-w-[20px] h-[20px] px-1 rounded-full text-[11px] font-bold text-white bg-primary">
+                  {activeCount}
+                </span>
+              )}
             </button>
           </div>
 
@@ -120,10 +124,10 @@ export default function MenuPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-32">
         {/* Heading */}
         <div className="mb-6">
-          <h1 className="text-3xl sm:text-4xl" style={{ fontFamily: "'Anton', sans-serif", color: '#1B1714', letterSpacing: '-0.02em' }}>
-            {activeCategory === 'all' ? 'FULL MENU' : activeCategory.toUpperCase()}
+          <h1 className="text-2xl sm:text-3xl font-bold text-ink tracking-tight">
+            {activeCategory === 'all' ? 'Full Menu' : activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}
           </h1>
-          <p className="text-sm mt-1" style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}>
+          <p className="text-sm mt-1 text-muted">
             {filtered.length} {filtered.length === 1 ? 'item' : 'items'}
           </p>
         </div>
@@ -136,8 +140,8 @@ export default function MenuPage() {
               <div className="space-y-10">
                 {groupedItems.map(({ category, label, items }) => (
                   <section key={category}>
-                    <h2 className="text-xl font-bold mb-4 uppercase tracking-wider" style={{ fontFamily: "'Anton', sans-serif", color: '#1B1714', letterSpacing: '-0.01em' }}>{label}</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                    <h2 className="text-xl font-bold mb-4 text-ink">{label}</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
                       {items.map((item) => (
                         <motion.div key={item.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
                           <MenuCard item={item} />
@@ -148,17 +152,17 @@ export default function MenuPage() {
                 ))}
               </div>
             ) : (
-              <motion.div key="grid" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              <motion.div key="grid" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
                 {filtered.map((item) => (
                   <MenuCard key={item.id} item={item} />
                 ))}
               </motion.div>
             )
           ) : (
-            <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
-              <p className="text-5xl mb-3" aria-hidden="true">🔍</p>
-              <p className="text-lg font-bold" style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}>No results found</p>
-              <p className="text-sm mt-1" style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}>Try a different category or search term.</p>
+            <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20 flex flex-col items-center">
+              <Search size={48} className="text-muted mb-4 opacity-30" />
+              <p className="text-lg font-bold text-ink">No results found</p>
+              <p className="text-sm mt-1 text-muted">Try a different category or search term.</p>
             </motion.div>
           )}
         </AnimatePresence>

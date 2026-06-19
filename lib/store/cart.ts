@@ -2,11 +2,13 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export type CartItem = {
-  id: string;
+  id: string; // Unique cart line item ID
+  baseId: string; // Original menu item ID
   name: string;
   price: number;
   image: string;
   quantity: number;
+  customizations?: Record<string, string>;
 };
 
 type CartStore = {

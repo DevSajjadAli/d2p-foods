@@ -17,8 +17,8 @@
   --color-charcoal: #000000;
 
   /* Font tokens */
-  --font-display: 'Work Sans', sans-serif;
-  --font-body: 'Work Sans', sans-serif;
+  --font-display: 'Manrope', 'Inter', sans-serif;
+  --font-body: 'Manrope', 'Inter', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 }
 
