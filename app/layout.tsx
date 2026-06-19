@@ -59,7 +59,6 @@ export const metadata: Metadata = {
     creator: "@d2pfoods",
   },
   manifest: "/manifest.json",
-  themeColor: "#E23744",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -72,6 +71,10 @@ export const metadata: Metadata = {
     ],
     apple: "/icons/apple-touch-icon.png",
   },
+};
+
+export const viewport = {
+  themeColor: "#E23744",
 };
 
 const restaurantJsonLd = {

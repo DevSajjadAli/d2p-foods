@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import Image from 'next/image';
 
 export default function OfferPopup() {
   const [isOpen, setIsOpen] = useState(false);
