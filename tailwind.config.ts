@@ -9,23 +9,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // D2P Foods Design Token System
-        bone: "#F7F3EA",    // Primary background
-        char: "#1B1714",    // Headlines, nav, primary text
-        ember: "#D62828",   // The one accent — CTAs, prices, active states
-        ash: "#E7E1D3",     // Card surfaces, dividers, hover states
-        smoke: "#6E6557",   // Secondary/muted text, captions
-        charcoal: "#2A2521", // Footer, dark sections, overlays
+        // Zomato Inspired Design Token System
+        bone: "#FFFFFF",    // Primary background
+        char: "#1C1C1C",    // Headlines, nav, primary text
+        ember: "#E23744",   // The one accent — Zomato Red
+        ash: "#F8F8F8",     // Card surfaces, dividers, hover states
+        smoke: "#696969",   // Secondary/muted text, captions
+        charcoal: "#000000", // Footer, dark sections, overlays
       },
       fontFamily: {
-        display: ["Anton", "sans-serif"],    // H1, H2, CTA labels
+        display: ["Work Sans", "sans-serif"],    // Clean UI font
         body: ["Work Sans", "sans-serif"],   // Body text
         mono: ["IBM Plex Mono", "monospace"], // Prices, order numbers
       },
       clipPath: {
-        card: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)",
-        "card-lg": "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)",
-        "card-xl": "polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%)",
+        // Using basic rounded corners instead of harsh polygons for a cleaner look
+        card: "none",
+        "card-lg": "none",
+        "card-xl": "none",
       },
     },
   },

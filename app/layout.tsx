@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
-import { Anton, Work_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Work_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import BottomNav from "@/components/layout/BottomNav";
 import CartDrawer from "@/components/ui/CartDrawer";
 import InstallBanner from "@/components/pwa/InstallBanner";
 import UpdateToast from "@/components/pwa/UpdateToast";
-
-const anton = Anton({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-});
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
+import OfferPopup from "@/components/ui/OfferPopup";
 
 const workSans = Work_Sans({
   subsets: ["latin"],
@@ -30,12 +26,12 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://d2pfoods.pk"),
   title: {
-    default: "D2P Foods — Flame-Grilled. No Shortcuts.",
+    default: "D2P Foods — Order Food Online",
     template: "%s | D2P Foods",
   },
   description:
-    "Order flame-grilled burgers, crispy wings, combos and more from D2P Foods. Fast delivery across Pakistan. 100% Halal.",
-  keywords: ["D2P Foods", "flame-grilled", "burgers", "wings", "halal", "Pakistan", "Lahore", "Karachi", "food delivery"],
+    "Order food online from D2P Foods. Fast delivery across Pakistan. 100% Halal.",
+  keywords: ["D2P Foods", "order online", "burgers", "wings", "halal", "Pakistan", "food delivery"],
   authors: [{ name: "D2P Foods" }],
   creator: "D2P Foods",
   openGraph: {
@@ -43,27 +39,27 @@ export const metadata: Metadata = {
     locale: "en_PK",
     url: "https://d2pfoods.pk",
     siteName: "D2P Foods",
-    title: "D2P Foods — Flame-Grilled. No Shortcuts.",
+    title: "D2P Foods — Order Food Online",
     description:
-      "Flame-grilled burgers, wings, and combos delivered to your door across Pakistan.",
+      "Order food online from D2P Foods. Delivery across Pakistan.",
     images: [
       {
         url: "/images/hero_burger.png",
         width: 1200,
         height: 630,
-        alt: "D2P Foods flame-grilled burger",
+        alt: "D2P Foods",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "D2P Foods — Flame-Grilled. No Shortcuts.",
-    description: "Flame-grilled burgers, wings, and combos. Delivery across Pakistan.",
+    title: "D2P Foods — Order Food Online",
+    description: "Order food online from D2P Foods. Delivery across Pakistan.",
     images: ["/images/hero_burger.png"],
     creator: "@d2pfoods",
   },
   manifest: "/manifest.json",
-  themeColor: "#1B1714",
+  themeColor: "#E23744",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -82,9 +78,9 @@ const restaurantJsonLd = {
   "@context": "https://schema.org",
   "@type": "Restaurant",
   name: "D2P Foods",
-  description: "Flame-grilled fast food chain — burgers, wings, combos, and sides.",
+  description: "Fast food chain — burgers, wings, combos, and sides.",
   url: "https://d2pfoods.pk",
-  telephone: "+92-21-3357-1000",
+  telephone: "+923704604266",
   email: "hello@d2pfoods.pk",
   servesCuisine: ["Pakistani", "Fast Food", "Burgers", "Grilled Chicken"],
   hasMenu: "https://d2pfoods.pk/menu",
@@ -105,7 +101,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${anton.variable} ${workSans.variable} ${ibmPlexMono.variable}`}>
+    <html lang="en" className={`${workSans.variable} ${ibmPlexMono.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <script
@@ -114,17 +110,16 @@ export default function RootLayout({
         />
       </head>
       <body
-        style={{
-          background: "#F7F3EA",
-          fontFamily: "var(--font-body), 'Work Sans', sans-serif",
-          color: "#1B1714",
-        }}
+        className="bg-white text-char font-body selection:bg-ember selection:text-white"
       >
         <Header />
         <InstallBanner />
         {children}
         <CartDrawer />
         <UpdateToast />
+        <WhatsAppButton />
+        <BottomNav />
+        <OfferPopup />
         <Footer />
       </body>
     </html>

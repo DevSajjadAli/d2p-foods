@@ -4,20 +4,20 @@
 
 /* ─────────────────────────────────────
    D2P Foods — Global CSS
-   Design Token System
+   Zomato Design Token System
 ───────────────────────────────────── */
 
 :root {
   /* Color tokens */
-  --color-bone: #F7F3EA;
-  --color-char: #1B1714;
-  --color-ember: #D62828;
-  --color-ash: #E7E1D3;
-  --color-smoke: #6E6557;
-  --color-charcoal: #2A2521;
+  --color-bone: #FFFFFF;
+  --color-char: #1C1C1C;
+  --color-ember: #E23744;
+  --color-ash: #F8F8F8;
+  --color-smoke: #696969;
+  --color-charcoal: #000000;
 
   /* Font tokens */
-  --font-display: 'Anton', sans-serif;
+  --font-display: 'Work Sans', sans-serif;
   --font-body: 'Work Sans', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 }
@@ -46,25 +46,24 @@ body {
 /* ─────────────────────────────────────
    Fluid Typography via clamp()
 ───────────────────────────────────── */
-h1 { font-size: clamp(2rem, 6vw, 4.5rem); }
-h2 { font-size: clamp(1.5rem, 4vw, 3rem); }
-h3 { font-size: clamp(1.125rem, 2.5vw, 1.75rem); }
-h4 { font-size: clamp(1rem, 2vw, 1.25rem); }
+h1 { font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 700; }
+h2 { font-size: clamp(1.5rem, 4vw, 3rem); font-weight: 600; }
+h3 { font-size: clamp(1.125rem, 2.5vw, 1.75rem); font-weight: 600; }
+h4 { font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 600; }
 
 /* ─────────────────────────────────────
-   Signature Element — Clipped Card
-   8px diagonal cut on top-right corner
+   Clean Corners instead of clips
 ───────────────────────────────────── */
 .clipped-card {
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+  border-radius: 12px;
 }
 
 .clipped-card-lg {
-  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  border-radius: 16px;
 }
 
 .clipped-card-xl {
-  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+  border-radius: 20px;
 }
 
 /* ─────────────────────────────────────
@@ -108,9 +107,7 @@ h4 { font-size: clamp(1rem, 2vw, 1.25rem); }
 }
 
 /* ─────────────────────────────────────
-   Utility: Ember Red Accent Text
-   ONLY for large text, buttons, icons
-   Never for body copy
+   Utility: Zomato Red Accent Text
 ───────────────────────────────────── */
 .text-ember {
   color: var(--color-ember);
@@ -128,20 +125,20 @@ h4 { font-size: clamp(1rem, 2vw, 1.25rem); }
    Leaflet Map Overrides
 ───────────────────────────────────── */
 .leaflet-container {
-  background: #1B1714 !important;
+  background: #EAEAEA !important;
 }
 
 .leaflet-popup-content-wrapper {
-  background: #2A2521 !important;
-  color: #F7F3EA !important;
-  border-radius: 0 !important;
-  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
+  background: #FFFFFF !important;
+  color: #1C1C1C !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
   font-family: 'Work Sans', sans-serif !important;
   font-size: 13px !important;
 }
 
 .leaflet-popup-tip {
-  background: #2A2521 !important;
+  background: #FFFFFF !important;
 }
 
 /* ─────────────────────────────────────
