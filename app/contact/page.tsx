@@ -10,16 +10,14 @@ const schema = z.object({
   name: z.string().min(2, 'Name too short'),
   email: z.string().email('Invalid email'),
   subject: z.string().min(3, 'Subject required'),
-  message: z.string().min(20, 'Message must be at least 20 characters'),
-});
+  message: z.string().min(20, 'Message must be at least 20 characters') });
 
 type FormData = z.infer<typeof schema>;
 
 export default function ContactPage() {
   const [sent, setSent] = useState(false);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  });
+    resolver: zodResolver(schema) });
 
   const onSubmit = async () => {
     await new Promise((r) => setTimeout(r, 1000));
@@ -27,11 +25,10 @@ export default function ContactPage() {
   };
 
   const inputBase = {
-    fontFamily: "'Work Sans', sans-serif",
+    
     borderColor: '#E7E1D3',
     background: '#fff',
-    color: '#1B1714',
-  };
+    color: '#1B1714' };
 
   return (
     <main className="min-h-screen pb-20" style={{ background: '#F7F3EA' }}>
@@ -39,13 +36,13 @@ export default function ContactPage() {
         <div className="mb-8">
           <p
             className="text-xs font-bold uppercase tracking-widest mb-1"
-            style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}
+            
           >
             Get In Touch
           </p>
           <h1
             className="text-4xl sm:text-5xl"
-            style={{ fontFamily: "'Anton', sans-serif", color: '#1B1714', letterSpacing: '-0.02em' }}
+            style={{  color: '#1B1714', letterSpacing: '-0.02em' }}
           >
             CONTACT US
           </h1>
@@ -64,8 +61,7 @@ export default function ContactPage() {
                 className="flex items-start gap-4 p-5"
                 style={{
                   background: '#E7E1D3',
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
-                }}
+                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)' }}
               >
                 <div
                   className="w-10 h-10 flex items-center justify-center flex-shrink-0"
@@ -74,15 +70,15 @@ export default function ContactPage() {
                   <Icon size={16} className="text-white" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wide mb-0.5" style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}>
+                  <p className="text-xs font-bold uppercase tracking-wide mb-0.5" >
                     {label}
                   </p>
                   {href ? (
-                    <a href={href} className="text-sm hover:text-ember transition-colors" style={{ color: '#1B1714', fontFamily: "'IBM Plex Mono', monospace" }}>
+                    <a href={href} className="text-sm hover:text-ember transition-colors" >
                       {value}
                     </a>
                   ) : (
-                    <p className="text-sm" style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}>{value}</p>
+                    <p className="text-sm" >{value}</p>
                   )}
                 </div>
               </div>
@@ -92,13 +88,12 @@ export default function ContactPage() {
               className="p-5"
               style={{
                 background: '#1B1714',
-                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
-              }}
+                clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)' }}
             >
-              <p className="text-white font-bold text-sm mb-1" style={{ fontFamily: "'Work Sans', sans-serif" }}>
+              <p className="text-white font-bold text-sm mb-1" >
                 Business Hours
               </p>
-              <p className="text-white/60 text-sm" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+              <p className="text-white/60 text-sm" >
                 Mon – Fri: 9 AM – 6 PM<br />
                 Sat – Sun: 11 AM – 4 PM
               </p>
@@ -108,11 +103,11 @@ export default function ContactPage() {
           {/* Form */}
           {sent ? (
             <div className="flex flex-col items-center justify-center text-center p-10">
-              <CheckCircle size={48} style={{ color: '#22c55e' }} className="mb-4" aria-hidden="true" />
-              <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: "'Anton', sans-serif", color: '#1B1714' }}>
+              <CheckCircle size={48}  className="mb-4" aria-hidden="true" />
+              <h2 className="text-2xl font-bold mb-2" >
                 MESSAGE SENT!
               </h2>
-              <p className="text-sm" style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}>
+              <p className="text-sm" >
                 We&apos;ll get back to you within 24 hours.
               </p>
             </div>
@@ -124,7 +119,7 @@ export default function ContactPage() {
                 { id: 'subject', label: 'Subject *', placeholder: 'Feedback, complaint, franchise...', type: 'text' },
               ].map(({ id, label, placeholder, type }) => (
                 <div key={id}>
-                  <label htmlFor={id} className="block text-sm font-semibold mb-1" style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}>
+                  <label htmlFor={id} className="block text-sm font-semibold mb-1" >
                     {label}
                   </label>
                   <input
@@ -136,7 +131,7 @@ export default function ContactPage() {
                     style={{ ...inputBase, clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)' }}
                   />
                   {errors[id as keyof FormData] && (
-                    <p className="text-xs mt-1" style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}>
+                    <p className="text-xs mt-1" >
                       {errors[id as keyof FormData]?.message}
                     </p>
                   )}
@@ -144,7 +139,7 @@ export default function ContactPage() {
               ))}
 
               <div>
-                <label htmlFor="message" className="block text-sm font-semibold mb-1" style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}>
+                <label htmlFor="message" className="block text-sm font-semibold mb-1" >
                   Message *
                 </label>
                 <textarea
@@ -156,7 +151,7 @@ export default function ContactPage() {
                   style={{ ...inputBase, borderRadius: 0 }}
                 />
                 {errors.message && (
-                  <p className="text-xs mt-1" style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}>
+                  <p className="text-xs mt-1" >
                     {errors.message.message}
                   </p>
                 )}
@@ -168,9 +163,8 @@ export default function ContactPage() {
                 className="w-full h-12 text-white font-bold text-sm transition-all active:scale-95 disabled:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
                 style={{
                   background: '#D62828',
-                  fontFamily: "'Work Sans', sans-serif",
-                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)',
-                }}
+                  
+                  clipPath: 'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)' }}
               >
                 {isSubmitting ? 'SENDING...' : 'SEND MESSAGE →'}
               </button>

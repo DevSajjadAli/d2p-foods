@@ -14,7 +14,7 @@ export default function Loading() {
         />
         <p
           className="text-sm font-semibold uppercase tracking-widest"
-          style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}
+          
         >
           Loading...
         </p>

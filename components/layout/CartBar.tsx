@@ -12,6 +12,9 @@ export default function CartBar() {
   const total = useCartStore((s) => s.getTotal());
   const openCartDrawer = useUIStore((s) => s.openCartDrawer);
   const [mounted, setMounted] = useState(false);
+  const amountToFreeDelivery = 2000 - total;
+  const isFreeDelivery = total >= 2000;
+  
   useEffect(() => setMounted(true), []);
 
   return (
@@ -36,12 +39,17 @@ export default function CartBar() {
                 <div className="w-8 h-8 flex items-center justify-center bg-white/20 rounded-md">
                   <ShoppingBag size={18} className="text-white" aria-hidden="true" />
                 </div>
-                <div className="text-left">
-                  <span className="text-white/90 text-[11px] block uppercase tracking-wider font-bold">
-                    {itemCount} {itemCount === 1 ? 'item' : 'items'}
-                  </span>
-                  <span className="text-white font-bold text-base">
-                    Rs. {total.toLocaleString()}
+                <div className="text-left flex flex-col justify-center">
+                  <div className="flex items-center gap-2">
+                    <span className="text-white font-bold text-base leading-tight">
+                      Rs. {total.toLocaleString()}
+                    </span>
+                    <span className="text-white/80 text-[10px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded bg-black/20">
+                      {itemCount} {itemCount === 1 ? 'item' : 'items'}
+                    </span>
+                  </div>
+                  <span className="text-white/90 text-[10px] mt-0.5">
+                    {isFreeDelivery ? '🎉 Free Delivery Unlocked' : `Add Rs. ${amountToFreeDelivery.toLocaleString()} for Free Delivery`}
                   </span>
                 </div>
               </div>

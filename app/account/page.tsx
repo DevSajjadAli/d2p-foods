@@ -17,8 +17,7 @@ export default function AccountPage() {
   const [profile, setProfile] = useState({
     name: 'Ahmed Khan',
     email: 'ahmed@example.com',
-    phone: '+92 300 1234567',
-  });
+    phone: '+92 300 1234567' });
 
   const [editForm, setEditForm] = useState(profile);
 

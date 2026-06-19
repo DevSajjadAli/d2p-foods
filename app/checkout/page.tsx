@@ -15,15 +15,13 @@ const addressSchema = z.object({
   phone: z.string().regex(/^(\+92|0)[0-9]{10}$/, 'Enter a valid Pakistani phone number'),
   address: z.string().min(10, 'Please enter a full address'),
   city: z.string().min(2, 'City is required'),
-  instructions: z.string().optional(),
-});
+  instructions: z.string().optional() });
 
 const paymentSchema = z.object({
   method: z.enum(['cod', 'jazzcash', 'easypaisa', 'card']),
   cardNumber: z.string().optional(),
   cardExpiry: z.string().optional(),
-  cardCvc: z.string().optional(),
-});
+  cardCvc: z.string().optional() });
 
 type AddressForm = z.infer<typeof addressSchema>;
 type PaymentForm = z.infer<typeof paymentSchema>;
@@ -46,13 +44,11 @@ export default function CheckoutPage() {
   const clearCart = useCartStore((s) => s.clearCart);
 
   const addressForm = useForm<AddressForm>({
-    resolver: zodResolver(addressSchema),
-  });
+    resolver: zodResolver(addressSchema) });
 
   const paymentForm = useForm<PaymentForm>({
     resolver: zodResolver(paymentSchema),
-    defaultValues: { method: 'cod' },
-  });
+    defaultValues: { method: 'cod' } });
 
   const selectedMethod = paymentForm.watch('method');
 

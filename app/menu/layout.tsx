@@ -7,13 +7,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Full Menu | D2P Foods',
     description: 'Browse and order from the complete D2P Foods menu.',
-    images: ['/images/hero_burger.png'],
-  },
-};
+    images: ['/images/hero_burger.png'] } };
 
 export default function MenuLayout({
-  children,
-}: {
+  children }: {
   children: React.ReactNode;
 }) {
   return <>{children}</>;

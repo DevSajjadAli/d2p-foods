@@ -5,8 +5,6 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/checkout', '/order/'],
-    },
-    sitemap: 'https://d2pfoods.pk/sitemap.xml',
-  };
+      disallow: ['/api/', '/checkout', '/order/'] },
+    sitemap: 'https://d2pfoods.pk/sitemap.xml' };
 }

@@ -12,8 +12,7 @@ export async function POST(request: Request) {
     ...body,
     status: 'received',
     createdAt: new Date().toISOString(),
-    estimatedDelivery: new Date(Date.now() + 35 * 60 * 1000).toISOString(),
-  };
+    estimatedDelivery: new Date(Date.now() + 35 * 60 * 1000).toISOString() };
 
   return NextResponse.json({ orderId, status: 'received' }, { status: 201 });
 }

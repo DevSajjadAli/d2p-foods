@@ -38,7 +38,7 @@ export default function ItemPage({ params }: { params: { item: string } }) {
         <Link
           href="/menu"
           className="inline-flex items-center gap-2 text-sm mb-6 transition-colors hover:underline focus:outline-none focus-visible:underline"
-          style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}
+          
         >
           <ArrowLeft size={14} aria-hidden="true" /> Back to Menu
         </Link>
@@ -49,8 +49,7 @@ export default function ItemPage({ params }: { params: { item: string } }) {
             transition={{ duration: 0.4 }}
             className="relative w-full aspect-square overflow-hidden"
             style={{
-              clipPath: 'polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)',
-            }}
+              clipPath: 'polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)' }}
           >
             <Image
               src={item.image}
@@ -74,7 +73,7 @@ export default function ItemPage({ params }: { params: { item: string } }) {
               <VegMarker veg={item.veg} size={16} />
               <span
                 className="text-xs font-bold uppercase tracking-widest"
-                style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}
+                
               >
                 {item.category}
               </span>
@@ -82,16 +81,15 @@ export default function ItemPage({ params }: { params: { item: string } }) {
             <h1
               className="text-3xl sm:text-4xl leading-tight mb-3"
               style={{
-                fontFamily: "'Anton', sans-serif",
+                
                 color: '#1B1714',
-                letterSpacing: '-0.02em',
-              }}
+                letterSpacing: '-0.02em' }}
             >
               {item.name.toUpperCase()}
             </h1>
             <p
               className="text-base leading-relaxed flex-1 mb-4"
-              style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}
+              
             >
               {item.description}
             </p>
@@ -102,7 +100,7 @@ export default function ItemPage({ params }: { params: { item: string } }) {
             </div>
             <div
               className="text-4xl font-bold mb-6"
-              style={{ color: '#D62828', fontFamily: "'IBM Plex Mono', monospace" }}
+              
               aria-label={`Price: Rs. ${item.price}`}
             >
               Rs. {item.price.toLocaleString()}
@@ -118,14 +116,14 @@ export default function ItemPage({ params }: { params: { item: string } }) {
                   <button
                     onClick={() => updateQuantity(item.id, quantity - 1)}
                     className="w-11 h-11 flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-                    style={{ color: '#D62828' }}
+                    
                     aria-label="Decrease quantity"
                   >
                     −
                   </button>
                   <span
                     className="w-10 text-center font-bold"
-                    style={{ color: '#1B1714', fontFamily: "'IBM Plex Mono', monospace" }}
+                    
                     aria-live="polite"
                   >
                     {quantity}
@@ -133,7 +131,7 @@ export default function ItemPage({ params }: { params: { item: string } }) {
                   <button
                     onClick={handleAdd}
                     className="w-11 h-11 flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-                    style={{ color: '#D62828' }}
+                    
                     aria-label="Increase quantity"
                   >
                     +
@@ -146,9 +144,8 @@ export default function ItemPage({ params }: { params: { item: string } }) {
                 className="flex-1 h-14 text-white font-bold text-lg transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
                 style={{
                   background: '#D62828',
-                  fontFamily: "'Work Sans', sans-serif",
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
-                }}
+                  
+                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)' }}
                 aria-label="Add to cart"
               >
                 ADD TO CART →
@@ -156,7 +153,7 @@ export default function ItemPage({ params }: { params: { item: string } }) {
             </div>
             <p
               className="text-xs mt-6"
-              style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}
+              
             >
               🌿 100% Halal certified. All prices include applicable taxes.
             </p>
@@ -167,10 +164,9 @@ export default function ItemPage({ params }: { params: { item: string } }) {
             <h2
               className="text-xl font-bold mb-4"
               style={{
-                fontFamily: "'Anton', sans-serif",
+                
                 color: '#1B1714',
-                letterSpacing: '-0.01em',
-              }}
+                letterSpacing: '-0.01em' }}
             >
               YOU MIGHT ALSO LIKE
             </h2>
@@ -188,8 +184,7 @@ export default function ItemPage({ params }: { params: { item: string } }) {
                     style={{
                       background: '#E7E1D3',
                       clipPath:
-                        'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)',
-                    }}
+                        'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)' }}
                   >
                     <div className="relative w-full aspect-[4/3] overflow-hidden">
                       <Image
@@ -203,19 +198,13 @@ export default function ItemPage({ params }: { params: { item: string } }) {
                     <div className="p-3">
                       <p
                         className="text-sm font-bold"
-                        style={{
-                          color: '#1B1714',
-                          fontFamily: "'Work Sans', sans-serif",
-                        }}
+                        
                       >
                         {rel.name}
                       </p>
                       <p
                         className="text-sm font-bold"
-                        style={{
-                          color: '#D62828',
-                          fontFamily: "'IBM Plex Mono', monospace",
-                        }}
+                        
                       >
                         Rs. {rel.price.toLocaleString()}
                       </p>
@@ -238,9 +227,8 @@ function MetaTag({ label, accent = false }: { label: string; accent?: boolean })
       style={{
         background: accent ? '#D6282830' : '#E7E1D3',
         color: '#1B1714',
-        fontFamily: "'Work Sans', sans-serif",
-        clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 0 100%)',
-      }}
+        
+        clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 0 100%)' }}
     >
       {label}
     </span>

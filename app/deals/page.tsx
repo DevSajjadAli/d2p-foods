@@ -13,8 +13,7 @@ const deals = [
     badge: '17% OFF',
     promo: 'EMBER10',
     image: '/images/combo_meal.png',
-    color: '#D62828',
-  },
+    color: '#D62828' },
   {
     id: 'deal2',
     title: 'Family Feast Friday',
@@ -22,9 +21,8 @@ const deals = [
     description: 'Family Feast Box upgraded with extra wings. Feed the family for Rs. 2,999.',
     badge: 'FRIDAY ONLY',
     promo: 'FLAME20',
-    image: '/images/family_combo.png',
-    color: '#1B1714',
-  },
+    image: '/images/family_feast.png',
+    color: '#1B1714' },
   {
     id: 'deal3',
     title: 'First Order Deal',
@@ -32,9 +30,8 @@ const deals = [
     description: 'Get 15% off your first order. Use code D2PFIRST at checkout.',
     badge: '15% OFF',
     promo: 'D2PFIRST',
-    image: '/images/double_smash.png',
-    color: '#D62828',
-  },
+    image: '/images/double_smash_moody.png',
+    color: '#D62828' },
   {
     id: 'deal4',
     title: 'Wings Wednesday',
@@ -42,9 +39,8 @@ const deals = [
     description: 'Order any wings and get a free dipping sauce and a regular drink.',
     badge: 'FREE DRINK',
     promo: 'EMBER10',
-    image: '/images/spicy_wings_platter.png',
-    color: '#1B1714',
-  },
+    image: '/images/spicy_wings.png',
+    color: '#1B1714' },
 ];
 
 export default function DealsPage() {
@@ -57,13 +53,13 @@ export default function DealsPage() {
         <div className="mb-8">
           <p
             className="text-xs font-bold uppercase tracking-widest mb-1"
-            style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}
+            
           >
             Hot Promotions
           </p>
           <h1
             className="text-4xl sm:text-5xl"
-            style={{ fontFamily: "'Anton', sans-serif", color: '#1B1714', letterSpacing: '-0.02em' }}
+            style={{  color: '#1B1714', letterSpacing: '-0.02em' }}
           >
             TODAY&apos;S DEALS
           </h1>
@@ -79,8 +75,7 @@ export default function DealsPage() {
               className="relative overflow-hidden flex flex-col sm:flex-row"
               style={{
                 background: '#E7E1D3',
-                clipPath: 'polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)',
-              }}
+                clipPath: 'polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)' }}
             >
               {/* Image */}
               <div className="relative w-full sm:w-40 h-48 sm:h-auto flex-shrink-0">
@@ -101,27 +96,26 @@ export default function DealsPage() {
                     className="inline-block text-white text-[11px] font-bold px-2 py-0.5 mb-2 uppercase tracking-wide"
                     style={{
                       background: deal.color,
-                      fontFamily: "'Work Sans', sans-serif",
-                      clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 0 100%)',
-                    }}
+                      
+                      clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 0 100%)' }}
                   >
                     {deal.badge}
                   </span>
                   <h2
                     className="font-bold text-lg leading-tight mb-1"
-                    style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}
+                    
                   >
                     {deal.title}
                   </h2>
                   <p
                     className="text-xs font-semibold mb-2"
-                    style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif" }}
+                    
                   >
                     {deal.subtitle}
                   </p>
                   <p
                     className="text-sm mb-3"
-                    style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}
+                    
                   >
                     {deal.description}
                   </p>
@@ -132,16 +126,15 @@ export default function DealsPage() {
                   <code
                     className="text-xs font-bold px-2 py-1 border-2 border-dashed"
                     style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
+                      
                       borderColor: '#D62828',
-                      color: '#D62828',
-                    }}
+                      color: '#D62828' }}
                   >
                     {deal.promo}
                   </code>
                   <span
                     className="text-xs"
-                    style={{ color: '#6E6557', fontFamily: "'Work Sans', sans-serif" }}
+                    
                   >
                     Use at checkout
                   </span>
@@ -158,9 +151,8 @@ export default function DealsPage() {
             className="inline-flex items-center gap-2 h-13 px-10 py-4 text-white font-bold transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
             style={{
               background: '#D62828',
-              fontFamily: "'Work Sans', sans-serif",
-              clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)',
-            }}
+              
+              clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)' }}
           >
             ORDER NOW & SAVE 🔥
           </a>

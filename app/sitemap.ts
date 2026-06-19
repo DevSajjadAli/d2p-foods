@@ -18,15 +18,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency,
-    priority,
-  }));
+    priority }));
 
   const menuItemRoutes = menuItems.map((item) => ({
     url: `${baseUrl}/menu/${item.id}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
-    priority: 0.7,
-  }));
+    priority: 0.7 }));
 
   return [...staticRoutes, ...menuItemRoutes];
 }

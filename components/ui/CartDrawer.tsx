@@ -21,7 +21,8 @@ export default function CartDrawer() {
   const total = useCartStore((s) => s.getTotal());
   const discount = useCartStore((s) => s.discount);
 
-  const deliveryFee = items.length > 0 ? 100 : 0;
+  const deliveryFee = items.length > 0 ? (total >= 2000 ? 0 : 100) : 0;
+  const amountToFreeDelivery = 2000 - total;
   const finalTotal = total + deliveryFee;
   const itemCount = items.reduce((sum, i) => sum + i.quantity, 0);
 
@@ -170,6 +171,36 @@ export default function CartDrawer() {
               )}
             </div>
 
+            {/* Upsell Section */}
+            {items.length > 0 && (
+              <div className="px-5 py-4 bg-white border-t border-gray-100">
+                <h3 className="text-sm font-bold text-ink mb-3">People also added</h3>
+                <div className="flex overflow-x-auto gap-3 pb-2 no-scrollbar">
+                  {[
+                    { id: 'regular-fries', name: 'Regular Fries', price: 350, image: '/images/crispy_fries.png' },
+                    { id: 'garlic-bread', name: 'Garlic Bread', price: 400, image: '/images/garlic_bread.png' },
+                    { id: 'fresh-lemonade', name: 'Fresh Lemonade', price: 250, image: '/images/lemonade.png' }
+                  ].map(upsell => (
+                    <div key={upsell.id} className="min-w-[140px] border border-gray-100 rounded-lg p-2 flex flex-col gap-2">
+                      <div className="relative w-full h-20 rounded-md overflow-hidden">
+                        <Image src={upsell.image} alt={upsell.name} fill className="object-cover" sizes="140px" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs font-bold text-ink line-clamp-1">{upsell.name}</p>
+                        <p className="text-[10px] text-muted">Rs. {upsell.price}</p>
+                      </div>
+                      <button 
+                        onClick={() => useCartStore.getState().addItem({ id: upsell.id, baseId: upsell.id, name: upsell.name, price: upsell.price, image: upsell.image })}
+                        className="w-full text-[10px] font-bold text-primary border border-primary rounded py-1 hover:bg-primary hover:text-white transition-colors"
+                      >
+                        ADD
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Footer with totals + checkout */}
             {items.length > 0 && (
               <div className="flex-shrink-0 p-5 border-t border-gray-100 bg-white space-y-4">
@@ -190,8 +221,21 @@ export default function CartDrawer() {
                   )}
                   <div className="flex justify-between">
                     <span>Delivery Fee</span>
-                    <span className="text-ink font-medium">Rs. {deliveryFee}</span>
+                    <span className="text-ink font-medium">
+                      {deliveryFee === 0 ? <span className="text-primary font-bold">FREE</span> : `Rs. ${deliveryFee}`}
+                    </span>
                   </div>
+                  
+                  {/* Free Delivery Tracker */}
+                  {deliveryFee > 0 && amountToFreeDelivery > 0 && (
+                    <div className="pt-2 text-xs text-muted">
+                      Add <span className="font-bold text-ink">Rs. {amountToFreeDelivery.toLocaleString()}</span> more to get <span className="text-primary font-bold">FREE DELIVERY</span>
+                      <div className="w-full bg-gray-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
+                        <div className="bg-primary h-full transition-all duration-300" style={{ width: `${Math.min((total / 2000) * 100, 100)}%` }} />
+                      </div>
+                    </div>
+                  )}
+
                   <div className="flex justify-between font-bold text-base pt-2 border-t border-gray-100 text-ink">
                     <span>Grand Total</span>
                     <span>Rs. {finalTotal.toLocaleString()}</span>

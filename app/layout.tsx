@@ -1,35 +1,40 @@
 import type { Metadata } from "next";
-import { Manrope, IBM_Plex_Mono } from "next/font/google";
+import { Manrope, IBM_Plex_Mono, Archivo_Black } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import BottomNav from "@/components/layout/BottomNav";
 import CartDrawer from "@/components/ui/CartDrawer";
+import CartBar from "@/components/layout/CartBar";
 import InstallBanner from "@/components/pwa/InstallBanner";
 import UpdateToast from "@/components/pwa/UpdateToast";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import OfferPopup from "@/components/ui/OfferPopup";
 import CustomizationModal from "@/components/ui/CustomizationModal";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
 const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-body",
-  display: "swap",
-});
+  display: "swap" });
 
 const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-mono",
-  display: "swap",
-});
+  display: "swap" });
+
+const archivoBlack = Archivo_Black({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://d2pfoods.pk"),
   title: {
     default: "D2P Foods — Order Food Online",
-    template: "%s | D2P Foods",
-  },
+    template: "%s | D2P Foods" },
   description:
     "Order food online from D2P Foods. Fast delivery across Pakistan. 100% Halal.",
   keywords: ["D2P Foods", "order online", "burgers", "wings", "halal", "Pakistan", "food delivery"],
@@ -45,38 +50,31 @@ export const metadata: Metadata = {
       "Order food online from D2P Foods. Delivery across Pakistan.",
     images: [
       {
-        url: "/images/hero_burger.png",
+        url: "/images/hero_burger_cinematic.png",
         width: 1200,
         height: 630,
-        alt: "D2P Foods",
-      },
-    ],
-  },
+        alt: "D2P Foods" },
+    ] },
   twitter: {
     card: "summary_large_image",
     title: "D2P Foods — Order Food Online",
     description: "Order food online from D2P Foods. Delivery across Pakistan.",
-    images: ["/images/hero_burger.png"],
-    creator: "@d2pfoods",
-  },
+    images: ["/images/hero_burger_cinematic.png"],
+    creator: "@d2pfoods" },
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "D2P Foods",
-  },
+    title: "D2P Foods" },
   icons: {
     icon: [
       { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
       { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: "/icons/apple-touch-icon.png",
-  },
-};
+    apple: "/icons/apple-touch-icon.png" } };
 
 export const viewport = {
-  themeColor: "#E23744",
-};
+  themeColor: "#E23744" };
 
 const restaurantJsonLd = {
   "@context": "https://schema.org",
@@ -95,17 +93,14 @@ const restaurantJsonLd = {
   address: {
     "@type": "PostalAddress",
     addressCountry: "PK",
-    addressLocality: "Lahore",
-  },
-};
+    addressLocality: "Lahore" } };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
+  children }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${ibmPlexMono.variable}`}>
+    <html lang="en" className={`${manrope.variable} ${ibmPlexMono.variable} ${archivoBlack.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <script
@@ -116,10 +111,12 @@ export default function RootLayout({
       <body
         className="bg-bg text-ink font-sans selection:bg-primary selection:text-white pb-20 md:pb-0"
       >
+        <LoadingScreen />
         <Header />
         <InstallBanner />
         {children}
         <CartDrawer />
+        <CartBar />
         <UpdateToast />
         <WhatsAppButton />
         <BottomNav />

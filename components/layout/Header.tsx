@@ -20,6 +20,8 @@ export default function Header() {
   const openCartDrawer = useUIStore((s) => s.openCartDrawer);
   const setSelectedLocation = useUIStore((s) => s.setSelectedLocation);
   const selectedLocation = useUIStore((s) => s.selectedLocation);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => { setMounted(true); }, []);
   useEffect(() => { setCartIconRef(cartRef as unknown as React.RefObject<HTMLElement>); }, []);
@@ -86,13 +88,46 @@ export default function Header() {
               </div>
 
               {/* Search Bar */}
-              <div className="flex-1 h-full flex items-center px-4">
+              <div className="flex-1 h-full flex items-center px-4 relative">
                 <Search size={18} className="text-muted mr-3 shrink-0" />
                 <input 
                   type="text" 
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setSearchOpen(e.target.value.length > 0);
+                  }}
+                  onFocus={() => setSearchOpen(searchQuery.length > 0)}
+                  onBlur={() => setTimeout(() => setSearchOpen(false), 200)}
                   placeholder="Search for dishes or categories..."
                   className="w-full h-full bg-transparent outline-none text-sm placeholder-muted"
                 />
+
+                <AnimatePresence>
+                  {searchOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 5 }}
+                      className="absolute top-full left-0 mt-2 w-full bg-white rounded-xl shadow-card border border-gray-100 py-2 z-50 overflow-hidden"
+                    >
+                      <div className="px-4 py-2 text-xs font-bold text-muted uppercase tracking-wider bg-gray-50 border-b border-gray-100">
+                        Suggested Results
+                      </div>
+                      {['Double Smash Burger', 'BBQ Wings', 'Family Feast Box', 'Crispy Fries'].filter(item => item.toLowerCase().includes(searchQuery.toLowerCase())).map((item) => (
+                        <Link
+                          key={item}
+                          href="/menu"
+                          onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
+                          className="block w-full text-left px-4 py-3 text-sm hover:bg-bg transition-colors flex items-center gap-3 border-b border-gray-50 last:border-b-0"
+                        >
+                          <Search size={14} className="text-muted" />
+                          {item}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
 

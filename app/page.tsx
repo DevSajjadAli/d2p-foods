@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import { Search, MapPin, ChevronRight } from 'lucide-react';
 
 import { cuisineTiles, featuredItems } from '@/lib/data/menu';
@@ -10,13 +11,20 @@ import { cuisineTiles, featuredItems } from '@/lib/data/menu';
 import MenuCard from '@/components/ui/MenuCard';
 
 export default function HomePage() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+
   return (
     <main className="bg-bg min-h-screen pb-24">
       {/* ─── ZOMATO-STYLE HERO ─── */}
-      <section className="relative w-full h-[60vh] min-h-[400px] max-h-[600px] flex flex-col items-center justify-center">
-        <div className="absolute inset-0 w-full h-full">
+      <section ref={heroRef} className="relative w-full h-[60vh] min-h-[400px] max-h-[600px] flex flex-col items-center justify-center overflow-hidden">
+        <motion.div style={{ y }} className="absolute inset-0 w-full h-[120%] -top-[10%]">
           <Image 
-            src="/images/hero_burger.png" 
+            src="/images/hero_burger_cinematic.png" 
             alt="Delicious food" 
             fill 
             priority 
@@ -25,7 +33,7 @@ export default function HomePage() {
           />
           {/* Lighter gradient for cleaner look */}
           <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" aria-hidden="true" />
-        </div>
+        </motion.div>
         
         <div className="relative z-10 w-full max-w-4xl mx-auto px-4 text-center mt-12 md:mt-0">
           <motion.h1 
@@ -123,10 +131,10 @@ export default function HomePage() {
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {[
-            { title: "Trending This Week", places: "12 Places", img: "/images/hero_burger.png" },
-            { title: "Newly Opened", places: "8 Places", img: "/images/hero_burger.png" },
-            { title: "Best Pizzas", places: "15 Places", img: "/images/hero_burger.png" },
-            { title: "Best Burgers", places: "10 Places", img: "/images/hero_burger.png" }
+            { title: "Trending This Week", places: "12 Places", img: "/images/hero_burger_cinematic.png" },
+            { title: "Newly Opened", places: "8 Places", img: "/images/hero_burger_cinematic.png" },
+            { title: "Best Pizzas", places: "15 Places", img: "/images/hero_burger_cinematic.png" },
+            { title: "Best Burgers", places: "10 Places", img: "/images/hero_burger_cinematic.png" }
           ].map((col, idx) => (
             <Link key={idx} href="/menu" className="relative h-64 md:h-80 rounded-xl overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow">
               <Image src={col.img} alt={col.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />

@@ -24,6 +24,5 @@ export async function GET(request: Request) {
   return NextResponse.json({
     items,
     categories,
-    total: items.length,
-  });
+    total: items.length });
 }

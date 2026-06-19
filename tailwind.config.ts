@@ -25,10 +25,10 @@ const config: Config = {
         charcoal: "#000000",
       },
       fontFamily: {
-        sans: ["Manrope", "Inter", "sans-serif"],
-        display: ["Manrope", "Inter", "sans-serif"],
-        body: ["Manrope", "Inter", "sans-serif"],
-        mono: ["IBM Plex Mono", "monospace"],
+        sans: ["var(--font-body)", "Manrope", "Inter", "sans-serif"],
+        display: ["var(--font-display)", "sans-serif"],
+        body: ["var(--font-body)", "Manrope", "Inter", "sans-serif"],
+        mono: ["var(--font-mono)", "IBM Plex Mono", "monospace"],
       },
       borderRadius: {
         'card': '14px',
