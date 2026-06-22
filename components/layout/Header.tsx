@@ -40,23 +40,23 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-surface shadow-sm text-ink">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 gap-4">
+      <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/95 text-ink shadow-sm backdrop-blur">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between gap-4">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group shrink-0" aria-label="D2P Foods Home">
-              <span className="text-2xl font-bold tracking-tight text-ink font-display italic">
+            <Link href="/" className="group flex shrink-0 items-center gap-2" aria-label="D2P Foods Home">
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary text-lg font-black tracking-tight text-white shadow-lg shadow-primary/20">
                 d2p
               </span>
             </Link>
 
             {/* Zomato-style Search & Location (Desktop) */}
-            <div className="hidden md:flex flex-1 max-w-2xl bg-white border border-gray-200 rounded-xl shadow-sm items-center h-12 relative">
+            <div className="relative hidden h-12 max-w-2xl flex-1 items-center rounded-2xl border border-gray-200 bg-white shadow-sm md:flex">
               {/* Location Selector */}
               <div className="relative border-r border-gray-200 h-full flex items-center px-4 w-56 shrink-0">
                 <button
                   onClick={() => setLocOpen(o => !o)}
-                  className="flex items-center gap-2 w-full text-sm font-medium focus:outline-none"
+                  className="flex min-h-11 w-full items-center gap-2 text-sm font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   aria-expanded={locOpen}
                   aria-haspopup="listbox"
                 >
@@ -90,8 +90,8 @@ export default function Header() {
               {/* Search Bar */}
               <div className="flex-1 h-full flex items-center px-4 relative">
                 <Search size={18} className="text-muted mr-3 shrink-0" />
-                <input 
-                  type="text" 
+                <input
+                  type="search"
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
@@ -100,7 +100,8 @@ export default function Header() {
                   onFocus={() => setSearchOpen(searchQuery.length > 0)}
                   onBlur={() => setTimeout(() => setSearchOpen(false), 200)}
                   placeholder="Search for dishes or categories..."
-                  className="w-full h-full bg-transparent outline-none text-sm placeholder-muted"
+                  className="h-full w-full bg-transparent text-sm outline-none placeholder:text-muted"
+                  aria-label="Search dishes or categories"
                 />
 
                 <AnimatePresence>
@@ -119,7 +120,7 @@ export default function Header() {
                           key={item}
                           href="/menu"
                           onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
-                          className="block w-full text-left px-4 py-3 text-sm hover:bg-bg transition-colors flex items-center gap-3 border-b border-gray-50 last:border-b-0"
+                          className="flex w-full items-center gap-3 border-b border-gray-50 px-4 py-3 text-left text-sm transition-colors last:border-b-0 hover:bg-bg"
                         >
                           <Search size={14} className="text-muted" />
                           {item}

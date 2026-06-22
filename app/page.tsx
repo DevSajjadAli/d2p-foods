@@ -21,60 +21,69 @@ export default function HomePage() {
   return (
     <main className="bg-bg min-h-screen pb-24">
       {/* ─── ZOMATO-STYLE HERO ─── */}
-      <section ref={heroRef} className="relative w-full h-[60vh] min-h-[400px] max-h-[600px] flex flex-col items-center justify-center overflow-hidden">
-        <motion.div style={{ y }} className="absolute inset-0 w-full h-[120%] -top-[10%]">
-          <Image 
-            src="/images/hero_burger_cinematic.png" 
-            alt="Delicious food" 
-            fill 
-            priority 
-            sizes="100vw" 
-            className="object-cover object-center" 
+      <section ref={heroRef} className="relative flex min-h-[520px] w-full flex-col items-center justify-center overflow-hidden md:min-h-[640px]">
+        <motion.div style={{ y }} className="absolute inset-0 -top-[10%] h-[120%] w-full">
+          <Image
+            src="/images/hero_burger_cinematic.png"
+            alt="D2P Foods signature burger with fries"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center food-image"
           />
-          {/* Lighter gradient for cleaner look */}
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" aria-hidden="true" />
         </motion.div>
-        
-        <div className="relative z-10 w-full max-w-4xl mx-auto px-4 text-center mt-12 md:mt-0">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            className="text-white text-5xl md:text-7xl font-bold mb-4 drop-shadow-lg"
+
+        <div className="relative z-10 mx-auto mt-12 w-full max-w-5xl px-4 text-center md:mt-0">
+          <motion.span
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4 inline-flex rounded-full bg-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-white backdrop-blur-md"
+          >
+            Fast delivery • Fresh food • Lahore
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4 text-5xl font-extrabold tracking-tight text-white drop-shadow-lg md:text-7xl"
           >
             D2P Foods
           </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-white/90 text-2xl md:text-4xl font-medium mb-10 drop-shadow-md"
+            className="mx-auto mb-9 max-w-3xl text-2xl font-semibold leading-tight text-white/95 drop-shadow-md md:text-4xl"
           >
-            Discover the best food & drinks in town
+            Discover bold burgers, wings, combos and comfort food near you
           </motion.p>
 
-          {/* Search Bar Container */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }} 
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="flex flex-col md:flex-row items-center bg-white rounded-xl md:rounded-full p-2 md:p-3 shadow-2xl max-w-3xl mx-auto gap-2"
+            className="mx-auto flex max-w-4xl flex-col gap-2 rounded-3xl bg-white p-2 text-left shadow-2xl md:flex-row md:rounded-full md:p-3"
+            role="search"
+            aria-label="Find food and delivery location"
           >
-            <div className="flex items-center flex-1 w-full px-4 py-3 md:py-2 border-b md:border-b-0 md:border-r border-gray-200">
-              <MapPin className="text-ember mr-2" size={24} />
-              <input 
-                type="text" 
-                placeholder="Lahore, Pakistan" 
-                className="w-full bg-transparent outline-none text-gray-700 placeholder-gray-500"
+            <label className="flex min-h-14 w-full flex-1 items-center border-b border-gray-100 px-4 md:border-b-0 md:border-r">
+              <MapPin className="mr-3 text-primary" size={22} aria-hidden="true" />
+              <span className="sr-only">Delivery location</span>
+              <input
+                type="text"
+                defaultValue="Lahore, Pakistan"
+                className="w-full bg-transparent text-base font-semibold text-ink outline-none placeholder:text-muted"
               />
-            </div>
-            <div className="flex items-center flex-[2] w-full px-4 py-3 md:py-2">
-              <Search className="text-gray-400 mr-2" size={24} />
-              <input 
-                type="text" 
-                placeholder="Search for restaurant, cuisine or a dish" 
-                className="w-full bg-transparent outline-none text-gray-700 placeholder-gray-500"
+            </label>
+            <label className="flex min-h-14 w-full flex-[2] items-center px-4">
+              <Search className="mr-3 text-muted" size={22} aria-hidden="true" />
+              <span className="sr-only">Search food</span>
+              <input
+                type="search"
+                placeholder="Search for burgers, wings, deals or dishes"
+                className="w-full bg-transparent text-base text-ink outline-none placeholder:text-muted"
               />
-            </div>
+            </label>
           </motion.div>
         </div>
       </section>

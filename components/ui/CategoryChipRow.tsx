@@ -19,7 +19,7 @@ export default function CategoryChipRow({ active, onChange }: CategoryChipRowPro
         role="tab"
         aria-selected={active === 'all'}
         onClick={() => onChange('all')}
-        className={`flex-shrink-0 flex items-center gap-1.5 px-5 h-10 text-sm font-semibold transition-all duration-200 focus:outline-none rounded-full border ${
+        className={`flex h-11 flex-shrink-0 items-center gap-1.5 rounded-full border px-5 text-sm font-bold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
           active === 'all'
             ? 'bg-primary text-white border-primary shadow-sm'
             : 'bg-white text-ink border-gray-200 hover:bg-bg'
@@ -34,7 +34,7 @@ export default function CategoryChipRow({ active, onChange }: CategoryChipRowPro
           role="tab"
           aria-selected={active === cat.id}
           onClick={() => onChange(cat.id)}
-          className={`flex-shrink-0 flex items-center gap-1.5 px-5 h-10 text-sm font-semibold transition-all duration-200 focus:outline-none rounded-full border ${
+          className={`flex h-11 flex-shrink-0 items-center gap-1.5 rounded-full border px-5 text-sm font-bold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
             active === cat.id
               ? 'bg-primary text-white border-primary shadow-sm'
               : 'bg-white text-ink border-gray-200 hover:bg-bg'

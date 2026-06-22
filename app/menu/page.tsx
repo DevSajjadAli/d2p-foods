@@ -80,42 +80,41 @@ export default function MenuPage() {
       <RestaurantHeader />
 
       {/* Sticky filter bar */}
-      <div className="sticky top-14 z-30 border-b border-gray-100 bg-white px-4 sm:px-6 lg:px-8 py-3">
-        <div className="max-w-7xl mx-auto space-y-3">
-          {/* Search + Filter button */}
+      <div className="sticky top-16 z-30 border-b border-gray-100 bg-white/95 px-4 py-3 shadow-sm backdrop-blur sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl space-y-3">
           <div className="flex items-center gap-3">
-            <div className="relative flex-1">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted pointer-events-none" aria-hidden="true" />
+            <label className="relative flex-1">
+              <Search size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted" aria-hidden="true" />
+              <span className="sr-only">Search menu items</span>
               <input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search the menu..."
-                className="w-full h-12 pl-11 pr-10 text-sm bg-bg border border-transparent rounded-xl focus:outline-none focus:bg-white focus:border-primary transition-colors text-ink placeholder-muted"
-                aria-label="Search menu items"
+                placeholder="Search dishes, burgers, wings..."
+                className="h-12 w-full rounded-2xl border border-gray-100 bg-bg pl-11 pr-10 text-sm text-ink shadow-inner outline-none transition-colors placeholder:text-muted focus:border-primary focus:bg-white"
               />
               {searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted hover:text-ink transition-colors focus:outline-none" aria-label="Clear search">
+                <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-muted transition-colors hover:bg-gray-100 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label="Clear search">
                   <X size={16} aria-hidden="true" />
                 </button>
               )}
-            </div>
+            </label>
             <button
               onClick={openFilterSheet}
-              className={`relative h-12 px-5 text-sm font-semibold flex items-center gap-2 transition-all rounded-xl border focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-                activeCount > 0 ? 'bg-primary/10 border-primary text-primary' : 'bg-white border-gray-200 text-ink hover:bg-bg'
+              className={`relative flex h-12 min-w-12 items-center justify-center gap-2 rounded-2xl border px-4 text-sm font-extrabold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:min-w-[112px] ${
+                activeCount > 0 ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 bg-white text-ink hover:bg-bg'
               }`}
+              aria-label={activeCount > 0 ? `Open filters, ${activeCount} active` : 'Open filters'}
             >
-              Filters
+              <span className="hidden sm:inline">Filters</span>
               {activeCount > 0 && (
-                <span className="inline-flex items-center justify-center min-w-[20px] h-[20px] px-1 rounded-full text-[11px] font-bold text-white bg-primary">
+                <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[11px] font-bold text-white">
                   {activeCount}
                 </span>
               )}
             </button>
           </div>
 
-          {/* Category chips */}
           <CategoryChipRow active={activeCategory} onChange={setActiveCategory} />
         </div>
       </div>

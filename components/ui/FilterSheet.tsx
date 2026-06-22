@@ -56,36 +56,40 @@ export default function FilterSheet({ filters, onChange, activeCount }: FilterSh
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={close}
-            className="fixed inset-0 z-50 bg-black/40"
+            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
             aria-hidden="true"
           />
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed top-0 right-0 z-50 h-full w-full sm:w-[380px] flex flex-col"
-            style={{ background: '#F7F3EA' }}
+            transition={{ type: 'spring', stiffness: 320, damping: 34 }}
+            className="fixed right-0 top-0 z-50 flex h-full w-full flex-col bg-white shadow-2xl sm:w-[420px]"
             role="dialog"
             aria-modal="true"
             aria-label="Filters"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b-2 flex-shrink-0" style={{ borderColor: '#E7E1D3', background: '#F7F3EA' }}>
+            <div className="flex flex-shrink-0 items-center justify-between border-b border-gray-100 bg-white px-5 py-4">
               <div className="flex items-center gap-2">
-                <SlidersHorizontal size={18} style={{ color: '#D62828' }} />
-                <h2 className="text-lg font-bold" style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}>Filters</h2>
+                <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  <SlidersHorizontal size={18} aria-hidden="true" />
+                </span>
+                <div>
+                  <h2 className="text-lg font-extrabold text-ink">Filters</h2>
+                  <p className="text-xs text-muted">Refine dishes by rating, cost and diet</p>
+                </div>
                 {activeCount > 0 && (
-                  <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-xs font-bold text-white" style={{ background: '#D62828' }}>{activeCount}</span>
+                  <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-xs font-bold text-white">{activeCount}</span>
                 )}
               </div>
-              <button onClick={close} className="w-10 h-10 flex items-center justify-center rounded-md hover:bg-ash focus:outline-none focus-visible:ring-2 focus-visible:ring-ember" aria-label="Close filters">
-                <X size={20} style={{ color: '#1B1714' }} />
+              <button onClick={close} className="flex h-11 w-11 items-center justify-center rounded-full hover:bg-bg focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label="Close filters">
+                <X size={20} className="text-ink" aria-hidden="true" />
               </button>
             </div>
 
             {/* Body */}
-            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-6">
+            <div className="flex-1 space-y-6 overflow-y-auto px-5 py-5">
               {/* Sort */}
               <Section title="Sort by">
                 {[{v:'relevance',l:'Relevance'},{v:'rating',l:'Rating: High to Low'},{v:'cost-low',l:'Cost: Low to High'},{v:'cost-high',l:'Cost: High to Low'},{v:'time',l:'Delivery Time'}].map((opt) => (
@@ -116,13 +120,16 @@ export default function FilterSheet({ filters, onChange, activeCount }: FilterSh
             </div>
 
             {/* Footer: Check if any active and show clear all */}
-            {activeCount > 0 && (
-              <div className="p-5 border-t-2 flex-shrink-0" style={{ borderColor: '#E7E1D3', background: '#F7F3EA' }}>
-                <button onClick={reset} className="w-full py-3 text-sm font-bold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ember" style={{ color: '#D62828', fontFamily: "'Work Sans', sans-serif", border: '2px solid #D62828', clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)' }}>
-                  Clear All Filters
+            <div className="flex flex-shrink-0 gap-3 border-t border-gray-100 bg-white p-5 pb-safe">
+              {activeCount > 0 && (
+                <button onClick={reset} className="h-12 flex-1 rounded-2xl border border-primary bg-white text-sm font-extrabold text-primary transition-colors hover:bg-primary/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                  Clear all
                 </button>
-              </div>
-            )}
+              )}
+              <button onClick={close} className="h-12 flex-1 rounded-2xl bg-primary text-sm font-extrabold text-white shadow-lg shadow-primary/20 transition-colors hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                Show results
+              </button>
+            </div>
           </motion.div>
         </>
       )}
@@ -133,7 +140,7 @@ export default function FilterSheet({ filters, onChange, activeCount }: FilterSh
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: '#1B1714', fontFamily: "'Work Sans', sans-serif" }}>{title}</h3>
+      <h3 className="mb-3 text-sm font-extrabold uppercase tracking-[0.16em] text-ink">{title}</h3>
       <div className="grid grid-cols-1 gap-2">{children}</div>
     </div>
   );
@@ -141,10 +148,14 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function FilterOption({ label, checked, onClick }: { label: string; checked: boolean; onClick: () => void }) {
   return (
-    <button onClick={onClick} className={`flex items-center justify-between w-full px-3 py-2.5 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ember ${checked ? 'text-white' : 'text-ash'}`} style={{ background: checked ? '#D62828' : '#E7E1D3', clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 0 100%)', color: checked ? '#fff' : '#1B1714', fontFamily: "'Work Sans', sans-serif" }}>
+    <button
+      onClick={onClick}
+      className={`flex min-h-12 w-full items-center justify-between rounded-2xl border px-4 text-sm font-bold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${checked ? 'border-primary bg-primary/10 text-primary' : 'border-gray-100 bg-bg text-ink hover:bg-gray-100'}`}
+      aria-pressed={checked}
+    >
       {label}
-      <span className={`w-4 h-4 rounded-full border-2 ${checked ? 'border-white bg-white' : 'border-slate'}`} style={{ background: checked ? '#fff' : 'transparent' }}>
-        {checked && <span style={{ display: 'inline-block', width: '100%', height: '100%', background: '#D62828', borderRadius: '50%', border: '2px solid #F7F3EA', boxSizing: 'border-box' as const }} />}
+      <span className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${checked ? 'border-primary' : 'border-gray-300'}`}>
+        {checked && <span className="h-2.5 w-2.5 rounded-full bg-primary" />}
       </span>
     </button>
   );
@@ -152,11 +163,11 @@ function FilterOption({ label, checked, onClick }: { label: string; checked: boo
 
 function Toggle({ checked, onClick, label }: { checked: boolean; onClick: () => void; label: string }) {
   return (
-    <button onClick={onClick} className="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember rounded-sm" style={{ fontFamily: "'Work Sans', sans-serif" }}>
-      <div className={`relative w-10 h-6 rounded-full transition-colors ${checked ? 'bg-ember' : 'bg-ash'}`} style={{ background: checked ? '#D62828' : '#E7E1D3' }}>
-        <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${checked ? 'translate-x-5' : 'translate-x-1'}`} />
+    <button onClick={onClick} className="flex min-h-12 items-center gap-3 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-pressed={checked}>
+      <div className={`relative h-7 w-12 rounded-full transition-colors ${checked ? 'bg-primary' : 'bg-gray-200'}`}>
+        <div className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${checked ? 'translate-x-6' : 'translate-x-1'}`} />
       </div>
-      <span className="text-sm font-medium" style={{ color: '#1B1714' }}>{label}</span>
+      <span className="text-sm font-bold text-ink">{label}</span>
     </button>
   );
 }

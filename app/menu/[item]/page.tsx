@@ -3,7 +3,7 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Clock, Flame, ShieldCheck, Utensils } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getItemById, menuItems } from '@/lib/data/menu';
 import { useCartStore } from '@/lib/store/cart';
@@ -17,14 +17,24 @@ export default function ItemPage({ params }: { params: { item: string } }) {
 
   const addItem = useCartStore((s) => s.addItem);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
+  const cartItems = useCartStore((s) => s.items);
   const { buttonRef, embers, triggerEmber } = useEmberTrail();
-  const quantity = 0;
+  const quantity = cartItems
+    .filter((cartItem) => (cartItem.baseId || cartItem.id) === item.id)
+    .reduce((sum, cartItem) => sum + cartItem.quantity, 0);
 
   const handleAdd = () => {
     if (buttonRef.current) {
       triggerEmber();
     }
-    addItem({ id: item.id, name: item.name, price: item.price, image: item.image });
+    addItem({ id: item.id, baseId: item.id, name: item.name, price: item.price, image: item.image });
+  };
+
+  const handleDecrement = () => {
+    const firstInstance = cartItems.find((cartItem) => (cartItem.baseId || cartItem.id) === item.id);
+    if (firstInstance) {
+      updateQuantity(firstInstance.id, firstInstance.quantity - 1);
+    }
   };
 
   const related = menuItems
@@ -32,106 +42,81 @@ export default function ItemPage({ params }: { params: { item: string } }) {
     .slice(0, 4);
 
   return (
-    <main className="min-h-screen" style={{ background: '#F7F3EA' }}>
+    <main className="min-h-screen bg-bg">
       <EmberTrailCanvas embers={embers} />
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-10">
+      <div className="mx-auto max-w-7xl px-4 py-6 pb-14 sm:px-6 lg:px-8">
         <Link
           href="/menu"
-          className="inline-flex items-center gap-2 text-sm mb-6 transition-colors hover:underline focus:outline-none focus-visible:underline"
-          
+          className="mb-6 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-sm font-bold text-ink shadow-sm transition-colors hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
-          <ArrowLeft size={14} aria-hidden="true" /> Back to Menu
+          <ArrowLeft size={16} aria-hidden="true" /> Back to Menu
         </Link>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-card md:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
-            className="relative w-full aspect-square overflow-hidden"
-            style={{
-              clipPath: 'polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%)' }}
+            transition={{ duration: 0.35 }}
+            className="relative min-h-[360px] overflow-hidden bg-bg md:min-h-[620px]"
           >
             <Image
               src={item.image}
-              alt={item.name}
+              alt={`${item.name} — ${item.description}`}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
+              className="object-cover food-image"
               priority
             />
-            <div className="absolute top-3 left-3">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/10" />
+            <div className="absolute left-4 top-4">
               <RatingBadge rating={item.rating} ratingCount={item.ratingCount} />
             </div>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="flex flex-col"
+            transition={{ duration: 0.35, delay: 0.08 }}
+            className="flex flex-col p-5 sm:p-8 lg:p-10"
           >
-            <div className="flex items-center gap-2 mb-2">
+            <div className="mb-3 flex flex-wrap items-center gap-2">
               <VegMarker veg={item.veg} size={16} />
-              <span
-                className="text-xs font-bold uppercase tracking-widest"
-                
-              >
+              <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-primary">
                 {item.category}
               </span>
+              {item.popular && <span className="rounded-full bg-bg px-3 py-1 text-xs font-bold text-muted">Bestseller</span>}
             </div>
-            <h1
-              className="text-3xl sm:text-4xl leading-tight mb-3"
-              style={{
-                
-                color: '#1B1714',
-                letterSpacing: '-0.02em' }}
-            >
-              {item.name.toUpperCase()}
+            <h1 className="mb-3 text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-5xl">
+              {item.name}
             </h1>
-            <p
-              className="text-base leading-relaxed flex-1 mb-4"
-              
-            >
+            <p className="mb-6 text-base leading-relaxed text-muted sm:text-lg">
               {item.description}
             </p>
-            <div className="flex flex-wrap gap-3 mb-4">
-              <MetaTag label={`⏱ ${item.prepTime + 15} min`} />
-              <MetaTag label="🍽 1 serving" />
-              {item.spicy && <MetaTag label="🔥 Spicy" accent />}
+            <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+              <MetaTag icon={<Clock size={16} />} label={`${item.prepTime + 15} min`} />
+              <MetaTag icon={<Utensils size={16} />} label="1 serving" />
+              {item.spicy && <MetaTag icon={<Flame size={16} />} label="Spicy" accent />}
             </div>
-            <div
-              className="text-4xl font-bold mb-6"
-              
-              aria-label={`Price: Rs. ${item.price}`}
-            >
-              Rs. {item.price.toLocaleString()}
+            <div className="mb-8 rounded-3xl bg-bg p-5">
+              <span className="block text-xs font-bold uppercase tracking-[0.18em] text-muted">Price</span>
+              <div className="text-4xl font-extrabold tabular-nums text-ink" aria-label={`Price: Rs. ${item.price}`}>
+                Rs. {item.price.toLocaleString()}
+              </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="mt-auto flex flex-col gap-3 sm:flex-row sm:items-center">
               {quantity > 0 && (
-                <div
-                  className="flex items-center border-2"
-                  style={{ borderColor: '#E7E1D3' }}
-                  role="group"
-                  aria-label="Quantity"
-                >
+                <div className="flex h-14 items-center justify-between overflow-hidden rounded-2xl border border-primary bg-white sm:w-40" role="group" aria-label="Quantity">
                   <button
-                    onClick={() => updateQuantity(item.id, quantity - 1)}
-                    className="w-11 h-11 flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-                    
+                    onClick={handleDecrement}
+                    className="flex h-full w-14 items-center justify-center text-xl font-bold text-primary transition-colors hover:bg-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     aria-label="Decrease quantity"
                   >
                     −
                   </button>
-                  <span
-                    className="w-10 text-center font-bold"
-                    
-                    aria-live="polite"
-                  >
+                  <span className="flex-1 text-center text-lg font-extrabold tabular-nums text-primary" aria-live="polite">
                     {quantity}
                   </span>
                   <button
                     onClick={handleAdd}
-                    className="w-11 h-11 flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-                    
+                    className="flex h-full w-14 items-center justify-center text-xl font-bold text-primary transition-colors hover:bg-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     aria-label="Increase quantity"
                   >
                     +
@@ -141,95 +126,76 @@ export default function ItemPage({ params }: { params: { item: string } }) {
               <button
                 ref={buttonRef}
                 onClick={handleAdd}
-                className="flex-1 h-14 text-white font-bold text-lg transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember"
-                style={{
-                  background: '#D62828',
-                  
-                  clipPath: 'polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)' }}
+                className="h-14 flex-1 rounded-2xl bg-primary px-6 text-base font-extrabold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 aria-label="Add to cart"
               >
-                ADD TO CART →
+                Add to cart
               </button>
             </div>
-            <p
-              className="text-xs mt-6"
-              
-            >
-              🌿 100% Halal certified. All prices include applicable taxes.
+            <p className="mt-6 inline-flex items-center gap-2 text-xs font-semibold text-muted">
+              <ShieldCheck size={16} className="text-success" aria-hidden="true" /> 100% Halal certified. All prices include applicable taxes.
             </p>
           </motion.div>
         </div>
         {related.length > 0 && (
-          <div className="mt-12">
-            <h2
-              className="text-xl font-bold mb-4"
-              style={{
-                
-                color: '#1B1714',
-                letterSpacing: '-0.01em' }}
-            >
-              YOU MIGHT ALSO LIKE
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <section className="mt-12">
+            <div className="mb-5 flex items-end justify-between gap-4">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">More to love</p>
+                <h2 className="text-2xl font-extrabold tracking-tight text-ink">You might also like</h2>
+              </div>
+              <Link href="/menu" className="hidden text-sm font-bold text-primary hover:underline sm:inline-flex">
+                See all dishes
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
               {related.map((rel) => (
                 <motion.div
                   key={rel.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.25 }}
                 >
                   <Link
                     href={`/menu/${rel.id}`}
-                    className="block overflow-hidden transition-all hover:shadow-md"
-                    style={{
-                      background: '#E7E1D3',
-                      clipPath:
-                        'polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%)' }}
+                    className="group block overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                   >
-                    <div className="relative w-full aspect-[4/3] overflow-hidden">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-bg">
                       <Image
                         src={rel.image}
                         alt={rel.name}
                         fill
-                        sizes="25vw"
-                        className="object-cover"
+                        sizes="(max-width: 768px) 50vw, 25vw"
+                        className="object-cover food-image transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
                     <div className="p-3">
-                      <p
-                        className="text-sm font-bold"
-                        
-                      >
-                        {rel.name}
-                      </p>
-                      <p
-                        className="text-sm font-bold"
-                        
-                      >
-                        Rs. {rel.price.toLocaleString()}
-                      </p>
+                      <p className="line-clamp-1 text-sm font-extrabold text-ink">{rel.name}</p>
+                      <p className="mt-1 text-sm font-bold tabular-nums text-primary">Rs. {rel.price.toLocaleString()}</p>
                     </div>
                   </Link>
                 </motion.div>
               ))}
             </div>
-          </div>
+          </section>
         )}
       </div>
     </main>
   );
 }
 
-function MetaTag({ label, accent = false }: { label: string; accent?: boolean }) {
+function MetaTag({
+  icon,
+  label,
+  accent = false,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  accent?: boolean;
+}) {
   return (
-    <span
-      className="text-xs font-medium px-2 py-0.5"
-      style={{
-        background: accent ? '#D6282830' : '#E7E1D3',
-        color: '#1B1714',
-        
-        clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 0 100%)' }}
-    >
+    <span className={`inline-flex min-h-12 items-center gap-2 rounded-2xl px-3 py-2 text-sm font-bold ${accent ? 'bg-primary/10 text-primary' : 'bg-bg text-ink'}`}>
+      <span className={accent ? 'text-primary' : 'text-muted'}>{icon}</span>
       {label}
     </span>
   );
